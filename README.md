@@ -16,8 +16,15 @@ In particular:
 - Result checking is not always 100%
 - There are no tests (which is a sign I was *really* in a rush!)
 
-You'll need ant and composer installed to use this code. For an idea of how to deploy, run `ant -p`. The best way to 
-work out what functionality is available is probably just to install the code and experiment.
+Installation
+------------
+1) Create an empty DB
+2) Copy config/parameters.yml.dist to config/parameters.yml and edit
+3) Run `ant deploy-current-dev`
+
+You'll need ant and composer installed to use this code. For other deploymen tasks, run `ant -p`. The best way to 
+work out what functionality is available is probably just to install the code and experiment. You'll need to give the 
+first user you create ROLE_SUPER_ADMIN (see your local symfony expert for advice).
 
 To use the code, you'll probably want to replace the banner image, search/replace the email addresses, search for
 "TODO"s, and add your own text on appropriate pages. A lot of this is obviously hard-coded to the way our own wedding 
