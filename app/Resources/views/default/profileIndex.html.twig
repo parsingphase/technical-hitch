@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block wrapperClass %}profiles{% endblock %}
+
+{% block pageContent %}
+    <div ng-app="weddingApp">
+        <h1>Wedding Guests</h1>
+        <ul class="profiles">
+            {% for guest in guests %}
+                <li>
+                    <span class="fa fa-user"></span>
+                    <a href="{{ url('profile', {'guestId':guest.profileId}) }}">{{ guest.contactName }}</a>
+                    {#{% if guest.allowMessages %}<span class="fa fa-envelope" title="Messaging enabled"></span>{% endif %}#}
+                    {% if guest.photoUrl %}<span class="fa fa-camera" title="Photo link"></span>{% endif %}
+                    {% if guest.facebook %}<span class="fa fa-facebook" title="Facebook"></span>{% endif %}
+                    {% if guest.twitter %}<span class="fa fa-twitter" title="Twitter"></span>{% endif %}
+                    {% if guest.otherLinkUrl %}<span class="fa fa-globe" title="Web link"></span>{% endif %}
+                    {% if guest.userId == app.user.id %}<span class="fa fa-pencil" title="Editable"></span> {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {#{{ dump(guests) }}#}
+{% endblock %}

@@ -1,0 +1,197 @@
+{% extends 'infoPage.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src='//api.mapbox.com/mapbox.js/v2.2.3/mapbox.js'></script>
+    <script src='{{ asset('js/maps.js') }}'></script>
+    {#
+    This all goes horribly wrong inside ng-app. So don't call it inside ng-app.
+    venue itself: 51.48052, -0.00661
+    map centre: geo: 51.48060,-0.01079?z=17
+    Docs: http://leafletjs.com/reference.html#marker
+    #}
+
+    <script>
+
+        var currentMap = 'Greenwich';
+
+        var features =
+        {
+            Greenwich: [
+                {position: [51.48285, -0.00967], title: 'Cutty Sark'},
+                {position: [51.48155, -0.00910], title: 'Greenwich Market'},
+                {position: [51.48077, -0.00541], title: 'National Maritime Museum'},
+                {position: [51.48296, -0.00635], title: 'Old Royal Naval College'},
+                {position: [51.47735, -0.00119], title: 'Royal Observatory'},
+                {position: [51.4772, 0.0012], title: 'Greenwich Park'}
+            ],
+            London: [
+                {position: [51.50293, 0.00321], title: 'O2 Arena'},
+                {position: [51.50232, 0.01172], title: 'Emirates Airline'},
+                {position: [51.50654, -0.08127], title: 'HMS Belfast'},
+                {position: [51.50811, -0.07627], title: 'Tower of London'},
+                {position: [51.50436, -0.08639], title: 'The Shard'},
+                {position: [51.50759, -0.02387], title: 'Museum of London Docklands'},
+                {position: [51.48060, -0.00661], title: 'Devonport House', primary: true}
+            ]
+        };
+
+        var maps = {
+            Greenwich: {
+                centre: [51.4799, -0.0051],
+                scale: 15
+            },
+            London: {
+                centre: [51.4942, -0.0384],
+                scale: 13
+            }
+        };
+        map = mapController.drawLocationsMap(maps.Greenwich.centre, maps.Greenwich.scale, features.Greenwich);
+
+        $('.mapReset').click(function() {
+            var mapName = $(this).data('map');
+            map.setView(maps[mapName].centre, maps[mapName].scale);
+            if (currentMap !== mapName) {
+                map = mapController.drawLocationsMap(
+                        maps[mapName].centre,
+                        maps[mapName].scale,
+                        features[mapName]
+                );
+                currentMap = mapName;
+            }
+        });
+
+        $('.mapFeatureTrigger').click(
+                function() {
+                    var pointer = $(this).data('pointerRef');
+                    var mapName = $(this).data('map');
+                    if (currentMap !== mapName) {
+                        map = mapController.drawLocationsMap(
+                                maps[mapName].centre,
+                                maps[mapName].scale,
+                                features[mapName]
+                        );
+                        currentMap = mapName;
+                    }
+
+                    mapController.focusPointer(pointer);
+                }
+        );
+
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href='//api.mapbox.com/mapbox.js/v2.2.3/mapbox.css' rel='stylesheet'/>
+{% endblock %}
+
+{% block pageContent %}
+    <div ng-app="weddingApp" class="attractions mapPage">
+        <h1>Nearby Attractions</h1>
+
+        <p>There’s loads to see and do in Greenwich, so we thought we would provide links to a few nearby attractions
+            for anyone who feels like exploring a bit.</p>
+
+        <h2>Walking distance
+         <span class="mapReset" data-map="Greenwich">
+                <span class="fa fa-crosshairs"></span></span>
+        </h2>
+        <dl>
+            <dt><a href="http://www.rmg.co.uk/cutty-sark">Cutty Sark</a>
+                <span class="fa fa-crosshairs mapFeatureTrigger" data-pointer-ref="Cutty Sark"
+                      data-map="Greenwich"></span>
+            </dt>
+            <dd>
+                A beautifully restored 19th Century Tea Clipper.
+            </dd>
+
+            <dt><a href="http://www.greenwichmarketlondon.com/">Greenwich Market</a>
+                            <span class="fa fa-crosshairs mapFeatureTrigger" data-pointer-ref="Greenwich Market"
+                                  data-map="Greenwich"></span></dt>
+            <dd>
+                A vibrant indoor market selling crafts, food and souvenirs.
+            </dd>
+
+            <dt><a href="http://www.rmg.co.uk/national-maritime-museum">National
+                    Maritime Museum</a>
+                    <span class="fa fa-crosshairs mapFeatureTrigger" data-pointer-ref="National Maritime Museum"
+                          data-map="Greenwich"></span>
+            </dt>
+            <dd>Britain's Museum of the Seas, one of London's finest</dd>
+
+            <dt><a href="http://www.ornc.org/">Old Royal Naval College</a>
+                <span class="fa fa-crosshairs mapFeatureTrigger"
+                      data-pointer-ref="Old Royal Naval College"
+                      data-map="Greenwich"></span></dt>
+            <dd>Stunning 17th Century Architecture at the heart of Britain's maritime history</dd>
+
+            <dt><a href="http://www.rmg.co.uk/royal-observatory">Royal Observatory</a>
+                   <span class="fa fa-crosshairs mapFeatureTrigger"
+                         data-pointer-ref="Royal Observatory"
+                         data-map="Greenwich"></span></dt>
+            <dd>The defining point of the Greenwich Meridian, with museum of astronomy and planetarium</dd>
+
+            <dt><a href="http://www.supporttheroyalparks.org/visit_the_parks/greenwich_park/">Greenwich
+                    Park</a>
+               <span class="fa fa-crosshairs mapFeatureTrigger"
+                     data-pointer-ref="Greenwich Park"
+                     data-map="Greenwich"></span>
+            </dt>
+            <dd>One of London's historic Royal Parks, a great place for some fresh air & exercise</dd>
+        </dl>
+
+        <h2>Further afield
+                 <span class="mapReset" data-map="London">
+                <span class="fa fa-crosshairs"></span></span></h2>
+        <p>There are more attractions in London than we could possibly put on this map, but here are a few
+            of our favourites that have easy rail/DLR connections from Greenwich. For a wider selection, consult
+            <a href="http://www.tripadvisor.co.uk/Tourism-g186338-London_England-Vacations.html">Tripadvisor London</a>.
+        </p>
+        <dl>
+            <dt><a href="http://www.theo2.co.uk/">O2 Arena</a>
+            <span class="fa fa-crosshairs mapFeatureTrigger"
+                  data-pointer-ref="O2 Arena"
+                  data-map="London"></span></dt>
+            <dd>For concerts and restaurants; can be climbed by arrangement</dd>
+
+            <dt><a href="http://www.emiratesairline.co.uk">Emirates Airline</a>
+            <span class="fa fa-crosshairs mapFeatureTrigger"
+                  data-pointer-ref="Emirates Airline"
+                  data-map="London"></span></dt>
+            <dd>London's cable car. We're not sure what it's really for, but the view's probably great.</dd>
+
+            <dt><a href="http://www.museumoflondon.org.uk/docklands/">Museum of London Docklands</a>
+            <span class="fa fa-crosshairs mapFeatureTrigger"
+                  data-pointer-ref="Museum of London Docklands"
+                  data-map="London"></span></dt>
+            <dd>Museum of London, particularly its nautical history. A large, fascinating museum.</dd>
+
+            <dt><a href="http://www.iwm.org.uk/visits/hms-belfast">HMS Belfast</a>
+            <span class="fa fa-crosshairs mapFeatureTrigger"
+                  data-pointer-ref="HMS Belfast"
+                  data-map="London"></span></dt>
+            <dd>A fully-restored Second World War Cruiser in the heart of London</dd>
+
+            <dt><a href="http://www.hrp.org.uk/tower-of-london/">Tower of London</a>
+            <span class="fa fa-crosshairs mapFeatureTrigger"
+                  data-pointer-ref="Tower of London"
+                  data-map="London"></span></dt>
+            <dd>London's original Royal Fortress, dating from 1066</dd>
+
+            <dt><a href="http://www.the-shard.com/viewing-gallery/">The Shard</a>
+            <span class="fa fa-crosshairs mapFeatureTrigger"
+                  data-pointer-ref="The Shard"
+                  data-map="London"></span></dt>
+            <dd>London's highest and finest view</dd>
+        </dl>
+
+        <div class="pull-right">
+            <span class="btn btn-default btn-sm mapReset" data-map="Greenwich">
+                <span class="fa fa-crosshairs"></span> Greenwich</span>
+            <span class="btn btn-default btn-sm mapReset" data-map="London">
+                <span class="fa fa-crosshairs"></span> London</span>
+        </div>
+        <div id="map" class="wideMap">Map loading <span class="fa fa-spinner fa-pulse"></span></div>
+    </div>
+{% endblock %}

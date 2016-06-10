@@ -1,0 +1,83 @@
+{% extends 'infoPage.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src='//api.mapbox.com/mapbox.js/v2.2.3/mapbox.js'></script>
+    <script src='{{ asset('js/maps.js') }}'></script>
+
+    {#
+    This all goes horribly wrong inside ng-app. So don't call it inside ng-app.
+    venue itself: 51.48052, -0.00661
+    map centre: geo: 51.48060,-0.01079?z=17
+    Docs: http://leafletjs.com/reference.html#marker
+    #}
+
+    <script>
+
+        var features = [
+            {position: [51.47964, -0.00954], title: 'Ibis'},
+            {position: [51.47785, -0.01378], title: 'Novotel'},
+            {position: [51.47571, -0.01958], title: 'Premier Inn'},
+            {position: [51.47407, -0.02121], title: 'Travelodge'},
+            {position: [51.47448, -0.01957], title: 'Mercure'},
+            {position: [51.49232, 0.01003], title: 'Holiday Inn Express'}
+        ];
+
+        var mapCentre = [51.48274, -0.00316];
+        var scale = 14;
+        map = mapController.drawLocationsMap(mapCentre, scale, features);
+
+        $('.mapReset').click(function() {
+            map.setView(mapCentre, scale);
+        });
+
+        $('.mapFeatureTrigger').click(
+                function() {
+                    var pointer = $(this).data('pointerRef');
+                    mapController.focusPointer(pointer);
+                }
+        );
+
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href='//api.mapbox.com/mapbox.js/v2.2.3/mapbox.css' rel='stylesheet'/>
+{% endblock %}
+
+{% block pageContent %}
+    <div ng-app="weddingApp" class="hotels mapPage">
+        <h1>Nearby Hotels</h1>
+
+        <ul>
+            <li><a href="http://www.ibis.com/gb/hotel-0975-ibis-london-greenwich/index.shtml">Ibis</a>
+                <span class="fa fa-crosshairs mapFeatureTrigger" data-pointer-ref="Ibis"></span>
+            </li>
+
+            <li><a href="http://www.novotel.com/gb/hotel-3476-novotel-london-greenwich/index.shtml">Novotel</a>
+                <span class="fa fa-crosshairs mapFeatureTrigger" data-pointer-ref="Novotel"></span>
+            </li>
+            <li><a href="http://www.premierinn.com/gb/en/hotels/england/greater-london/london/london-greenwich.html">Premier
+                    Inn</a>
+                <span class="fa fa-crosshairs mapFeatureTrigger" data-pointer-ref="Premier Inn"></span>
+            </li>
+
+            <li><a href="http://www.mercure.com/gb/hotel-8634-mercure-london-greenwich/index.shtml">Mercure</a>
+                <span class="fa fa-crosshairs mapFeatureTrigger" data-pointer-ref="Mercure"></span>
+            </li>
+
+            <li><a href="https://www.travelodge.co.uk/hotels/539/London-Greenwich-hotel">Travelodge</a>
+                <span class="fa fa-crosshairs mapFeatureTrigger" data-pointer-ref="Travelodge"></span>
+            </li>
+            <li><a href="http://www.ihg.com/holidayinnexpress/hotels/gb/en/london/longm/hoteldetail">Holiday Inn
+                    Express</a>
+                <span class="fa fa-crosshairs mapFeatureTrigger" data-pointer-ref="Holiday Inn Express"></span>
+            </li>
+        </ul>
+
+        <div class="pull-right"><span class="btn btn-default btn-sm mapReset">
+                <span class="fa fa-crosshairs"></span> Re-centre</span></div>
+        <div id="map" class="wideMap">Map loading <span class="fa fa-spinner fa-pulse"></span></div>
+    </div>
+{% endblock %}

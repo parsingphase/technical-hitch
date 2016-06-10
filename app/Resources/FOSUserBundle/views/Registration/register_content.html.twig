@@ -1,0 +1,49 @@
+{% form_theme form with ['bootstrap_3_horizontal_layout.html.twig','form/form_tweaks.html.twig'] %}
+
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') and not is_granted('ROLE_ADMIN') %}
+    <p>You are already registered; you can
+        <a href="{{ path('wedding_homepage') }}">view the site from the homepage</a>.</p>
+{% else %}
+    <h3>Create your account</h3>
+    <div class="panel panel-warning">
+        <div class="panel-heading">Webmail users</div>
+        <p>If you use a webmail service such as Hotmail or GMail, please check your
+            spam folder for messages after signing up as they can be a little overzealous. Please add
+            <a href="mailto:wedding@ourdomain.com">wedding@ourdomain.com</a> to your address book
+            and/or safe senders list to try and help them get through, and move any that fall into the Spam folder
+            back to your inbox.
+        </p>
+        <p>Please note that we've had a few reports that Hotmail is not delivering
+            confirmation emails from this site at all.
+            If you have a choice of addresses to use, it may be better to use your non-Hotmail address here.</p>
+    </div>
+
+    <form
+            class="form-horizontal"
+            action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST"
+            class="fos_user_registration_register">
+        {{ form_widget(form) }}
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-6">
+                <input type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}"/>
+            </div>
+        </div>
+    </form>
+
+    <h4>Notes</h4>
+    <p>Please use a single name and email address; you will be able to RSVP separately for all members
+        of your party once logged in.</p>
+
+    <h4>What we're doing with this information</h4>
+    <p>We need at least one email address per group to enable us to keep you updated.
+        This will be used to send you a login to the site to give us the RSVPs for each member of your party
+        and to access complete and up-to-date
+        information. </p>
+    <p>As the site is developed and hosted entirely
+        by us we can assure you that your address will <strong>only</strong> be used to keep you
+        updated about the wedding, and will not be passed to <strong>any</strong> third parties.
+    </p>
+
+    <p>We look forward to seeing you all in May!</p>
+
+{% endif %}

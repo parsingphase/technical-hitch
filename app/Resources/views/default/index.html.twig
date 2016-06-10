@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block pageBanner %}
+    <img src="/images/weddingBanner.jpg"
+         class="img-responsive center-block"
+         title="Our Wedding"/>
+{% endblock %}
+
+{% block pageContent %}
+    <div ng-app="weddingApp" class="ng-cloak">
+        <h1>Welcome</h1>
+
+        {% if is_granted('ROLE_WEDDING_GUEST') %}
+
+            <p>On this site you can: </p>
+            <ul>
+                <li>Get a quick <a href="{{ path('wedding_info',{page:'aboutUs'}) }}">introduction to the
+                        Wedding Couple</a></li>
+                {% if settings.enableRsvp %}
+                    <li><a href="#rsvp">RSVP and provide details for your party</a></li>
+                {% endif %}
+                {% if settings.enableMenuResponses %}
+                    <li><a href="{{ path('wedding_menu') }}">Choose from the Wedding Breakfast menu</a></li>
+                {% endif %}
+                <li>Find <a href="{{ path('wedding_info',{page:'schedule'}) }}">schedule</a> and
+                    <a href="{{ path('wedding_info',{page:'venue'}) }}">venue</a> information
+                </li>
+                {% if not settings.enableMenuResponses %}{# possibly not the best flag #}
+                    <li>See <a href="{{ path('wedding_info',{page:'dining'}) }}">dining and seating information</a>
+                        for the wedding breakfast
+                    </li>
+                {% endif %}
+                <li>Find information on how to book
+                    <a href="{{ path('wedding_info',{page:'venue'}) }}#rooms">rooms</a> for those wishing to stay
+                    after the event
+                </li>
+                <li>Get details on local <a href="{{ path('wedding_info', {page: 'hotels'}) }}">hotels</a>
+                    and <a href="{{ path('wedding_info', {page: 'attractions'}) }}">attractions</a></li>
+            </ul>
+        {% elseif is_granted("ROLE_OBSERVER") %}
+            <p>We've assembled the following information for attendees:</p>
+            <ul>
+                {% for link,linkTitle in validPages %}
+                    {% if link != 'index' %}
+                        <li><a href="{{ path('wedding_info',{page: link}) }}">{{ linkTitle }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Once logged in and verified you can: </p>
+            <ul>
+                <li>RSVP and provide details for your party</li>
+                <li>Choose your menu for the Wedding Breakfast</li>
+                <li>Find schedule and venue information</li>
+                <li>Find information on how to book rooms for those wishing to stay after the event</li>
+                <li>Find details on local hotels and attractions</li>
+            </ul>
+        {% endif %}
+
+        <div class="panel panel-warning">
+            <div class="panel-heading">Mailer issues</div>
+            <p>We've seen a number of emails from the site end up in guests' Spam folders.
+                To help avoid this, please add
+                <a href="mailto:wedding@ourdomain.com">wedding@ourdomain.com</a> to your address book
+                and/or safe senders list to try and help them get through, and move any that fall into the Spam folder
+                back to your inbox.
+            </p>
+        </div>
+
+        {% if is_granted('ROLE_WEDDING_GUEST') %}
+            <h3 id="rsvp">Your party</h3>
+            <p>Please let us know:</p>
+            <ul>
+                <li>Guest names, as they will appear on the seating plan, eg Sue de Nîmes (we're planning not to use
+                    honorifics)
+                </li>
+                <li>Email addresses, which we will use only to send you updates on the event or the site
+                    - we need at least one per group
+                </li>
+                <li>Your RSVP, as soon as it's reasonably confident (early responses help us plan!)</li>
+                <li>Any dietary requirements or allergies, access needs, or anything similarly essential to your comfort
+                    on the day
+                </li>
+            </ul>
+            <p>You don't have to give this information all at once and you can revise it later.
+                However earlier information is better for us, and we will need everything at least
+                6 weeks prior to the event. <strong>Please remember to save any changes</strong>.</p>
+            <wedding-signup></wedding-signup>
+        {% elseif is_granted("ROLE_OBSERVER") %}
+            <p>Please feel free to take a look around; you have access to all information but will not
+                be able to access guest-specific functionality.</p>
+        {% elseif is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <p>Thank you for creating an account on the site. Once we've matched your name against the guest list,
+                you'll
+                be able to RSVP for your party and view all the details of the event.
+                (This is a manual process so could take up to 24 hours).</p>
+        {% else %}
+            <h3>Get started</h3>
+            <p>To access this site you'll need to <a href="/register">register and create an account</a>.</p>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        angular.module('weddingApp').constant("csrf", {{ csrf_token('contactRSVP')|json_encode|raw }});
+        angular.module('weddingApp').constant("settings", {{ settings|default(null)|json_encode|raw }});
+    </script>
+{% endblock %}

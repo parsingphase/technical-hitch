@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block pageContent %}
+    <h1>Photos</h1>
+
+    <p>{{ description }}</p>
+
+    <div ng-app="weddingApp" class="photoPage">
+        {% for photo in photos %}
+            <div class="pull-left">
+                <wedding-image-popup image="'{{ photo }}'"></wedding-image-popup>
+            </div>
+        {% endfor %}
+
+        <div class="clearfix"></div>
+    </div>
+
+{% endblock %}

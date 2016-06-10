@@ -1,0 +1,14 @@
+{% extends 'adminPage.html.twig' %}
+
+{% block pageContent %}
+    <div ng-app="weddingApp" class="ng-cloak">
+        <wedding-user-admin></wedding-user-admin>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        angular.module('weddingApp').constant("csrf", {{ csrf_token('userAdmin')|json_encode|raw }});
+    </script>
+{% endblock %}

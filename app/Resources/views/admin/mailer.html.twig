@@ -1,0 +1,15 @@
+{% extends 'adminPage.html.twig' %}
+
+{% block pageContent %}
+    <div ng-app="weddingApp" class="ng-cloak">
+        <h1>Email users</h1>
+        <wedding-mailer></wedding-mailer>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        angular.module('weddingApp').constant("csrf", {{ csrf_token('mailer')|json_encode|raw }});
+    </script>
+{% endblock %}

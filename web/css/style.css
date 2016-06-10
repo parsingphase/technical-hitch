@@ -1,0 +1,460 @@
+body {
+  background-color: #fff4d4;
+  color: #452718;
+}
+body a {
+  color: #915232;
+}
+body .panel .panel-heading {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+body .panel p {
+  padding: 0.4em 1em;
+}
+body .ngdialog.ngdialog-theme-default {
+  padding-top: 60px;
+}
+body .ngdialog.ngdialog-theme-default.imagePopupNoBorder .ngdialog-content {
+  width: 640px;
+  padding: 20px;
+  background: none;
+  text-align: center;
+}
+body .ngdialog.ngdialog-theme-default.imagePopupNoBorder .ngdialog-close:before {
+  border: solid #FFFFFF 2px;
+  border-radius: 15px;
+  background-color: #000000;
+  line-height: 22px;
+}
+body .ngdialog.ngdialog-theme-default.imagePopupBordered .ngdialog-content {
+  width: 660px;
+  text-align: center;
+  padding: 20px 30px;
+}
+body .ngdialog.ngdialog-theme-default.contactRequirementsPopup .panel {
+  margin-top: 20px;
+}
+body nav.navbar {
+  min-height: 40px;
+  margin-bottom: 0;
+  background-color: #f6e2aa;
+  border-color: #ecdeb4;
+  border-left: none;
+  border-right: none;
+  background-image: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+body nav.navbar .navbar-header {
+  width: 100%;
+  padding-right: 2em;
+}
+body nav.navbar .navbar-header .navbar-text {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #452718;
+}
+body nav.navbar .navbar-header .navbar-nav li.dropdown {
+  background-color: #f7e7b8;
+}
+body nav.navbar .navbar-header .navbar-nav li.dropdown:last-of-type {
+  border-right: none;
+}
+body nav.navbar .navbar-header .navbar-nav li.dropdown span.dropdown-label {
+  padding-left: 12px;
+}
+body nav.navbar .navbar-header .navbar-nav li a {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #452718;
+}
+body nav.navbar .navbar-header .navbar-nav li a.pre-dropdown {
+  display: inline-block;
+  padding-right: 0;
+}
+body nav.navbar .navbar-header .navbar-nav li a.pre-dropdown.dropdown-toggle {
+  padding-left: 5px;
+  padding-right: 10px;
+}
+body nav.navbar .navbar-header .navbar-nav li.photoLink {
+  background-color: #f7e7b8;
+}
+body .container {
+  max-width: 800px;
+}
+body .container .pageContent {
+  padding: 20px;
+  background-color: #FFFFFF;
+}
+body .container .pageContent h2 {
+  font-size: 24px;
+}
+body .container .pageContent .weddingSignup.well {
+  background-color: #f9f9f9;
+  background-image: none;
+}
+body .container .pageContent .weddingSignup.well h3,
+body .container .pageContent .weddingSignup.well h4 {
+  margin-top: 0;
+}
+body .container .pageContent .weddingSignup .weddingSignupForm .form-group:last-of-type {
+  margin-bottom: 10px;
+}
+body .container .pageContent .weddingSignup .weddingSignupForm .addRowOuter,
+body .container .pageContent .weddingSignup .weddingSignupForm .submitContactsOuter {
+  margin-bottom: 0.5em;
+  text-align: right;
+  padding-right: 0;
+}
+body .container .pageContent .weddingSignup .weddingSignupForm label.col-sm-1 {
+  padding-left: 10px;
+  padding-right: 5px;
+  white-space: nowrap;
+  text-wrap: none;
+  width: 6%;
+}
+body .container .pageContent .weddingSignup .weddingSignupForm label.col-sm-1.name-label {
+  width: 8.3333%;
+  padding-left: 20px;
+}
+body .container .pageContent .weddingSignup .weddingSignupForm div.col-sm-2.rsvp-holder {
+  width: 19.5%;
+}
+body .container .pageContent .weddingSignup .weddingSignupForm .requirements {
+  border: solid lightgrey 1px;
+  margin-bottom: 1em;
+  border-radius: 4px;
+}
+body .container .pageContent .weddingSignup .weddingSignupForm .requirementsHeader {
+  position: relative;
+  top: -0.7em;
+  padding: 0 8px;
+  background-color: #FFFFFF;
+  display: inline-block;
+  cursor: pointer;
+}
+body .container .pageContent .weddingSignup .weddingSignupForm .requirementsHeader .fa {
+  padding-left: 2px;
+}
+body .container .pageContent .weddingSignup .weddingSignupForm .requirementsLower {
+  padding: 0 8px;
+}
+body .container .pageContent .imagePopupTrigger {
+  cursor: pointer;
+}
+body .container .pageContent .weddingUserAdmin th {
+  min-width: 4em;
+  padding-right: 0;
+  vertical-align: top;
+}
+body .container .pageContent .weddingUserAdmin th p.headerNote {
+  font-weight: normal;
+  margin-bottom: 0;
+}
+body .container .pageContent .weddingUserAdmin .sortControl {
+  font-size: 1.2em;
+  display: inline-block;
+  height: 1em;
+  width: 1.4em;
+}
+body .container .pageContent .weddingUserAdmin .sortControl .fa {
+  height: 0.5em;
+  line-height: 0.5em;
+  padding-bottom: 0.1em;
+  width: 1em;
+  float: right;
+  cursor: pointer;
+}
+body .container .pageContent .weddingUserAdmin td.userContacts .contactsSubTable.table {
+  margin-bottom: 0;
+}
+body .container .pageContent .weddingUserAdmin td.userContacts .contactsSubTable.table td.contactInfoIcon {
+  min-width: 26px;
+}
+body .container .pageContent .weddingUserAdmin td.userContacts .contactsSubTable.table > tbody > tr:first-of-type > td {
+  padding-top: 0;
+}
+body .container .pageContent .weddingUserAdmin td.userContacts .contactsSubTable.table > tbody > tr > td {
+  border-top: none;
+}
+body .container .pageContent .weddingUserAdmin td.userContacts .contactsSubTable.table span.showRequirements {
+  cursor: pointer;
+}
+body .container .pageContent .weddingUserAdmin .menuChoices tr.guestAbsent td,
+body .container .pageContent .weddingUserAdmin .menuChoices tr.guestAbsent th {
+  text-decoration: line-through;
+  color: #888;
+}
+body .container .pageContent .weddingMailer .saveTemplateOuter,
+body .container .pageContent .weddingMailer .newTemplateOuter,
+body .container .pageContent .weddingMailer .sendToRecipientsOuter {
+  margin-bottom: 0.5em;
+  text-align: right;
+  padding-right: 0;
+}
+body .container .pageContent .attractions dl,
+body .container .pageContent .schedule dl {
+  margin-left: 1em;
+}
+body .container .pageContent .attractions dl dd,
+body .container .pageContent .schedule dl dd {
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+body .container .pageContent .aboutUs .thumbnails {
+  width: 730px;
+}
+body .container .pageContent .aboutUs .thumbnails .thumbnail {
+  width: 220px;
+  height: 230px;
+  margin: 5px;
+  padding: 0 10px;
+  text-align: center;
+  position: relative;
+}
+body .container .pageContent .aboutUs .thumbnails .thumbnail img {
+  position: relative;
+  top: 115px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  border: lightgrey 1px solid;
+}
+body .container .pageContent .mapPage .wideMap {
+  width: 100%;
+  height: 500px;
+  background-color: #f9f9f9;
+}
+body .container .pageContent .mapPage .btn.mapReset {
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+body .container .pageContent .mapPage .mapFeatureTrigger {
+  cursor: pointer;
+}
+body .container .pageContent .mapPage .mapMarker {
+  height: 40px;
+}
+body .container .pageContent .mapPage .mapMarker .placeMarker {
+  margin-bottom: -10px;
+}
+body .container .pageContent .mapPage .mapMarker .placeMarker .title {
+  background-image: -webkit-linear-gradient(top, #49bdd7 0%, #3177cd 100%);
+  background-image: -o-linear-gradient(top, #49bdd7 0%, #3177cd 100%);
+  background-image: linear-gradient(to bottom, #49bdd7 0%, #3177cd 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff49bdd7', endColorstr='#ff3177cd', GradientType=0);
+  height: 30px;
+  color: white;
+  font-weight: bold;
+  padding: 3px;
+  border-radius: 8px;
+  text-align: center;
+  border: solid white 2px;
+}
+body .container .pageContent .mapPage .mapMarker .placeMarker .pointer {
+  color: #3177cd;
+  text-align: center;
+  font-size: 3em;
+  margin-top: -11px;
+  margin-bottom: -10px;
+}
+body .container .pageContent .mapPage .mapMarker .placeMarker .pointer span {
+  height: 10px;
+}
+body .container .pageContent .mapPage .mapMarker .placeMarker.primary .title {
+  background-image: -webkit-linear-gradient(top, #ceb793 0%, #c28d40 100%);
+  background-image: -o-linear-gradient(top, #ceb793 0%, #c28d40 100%);
+  background-image: linear-gradient(to bottom, #ceb793 0%, #c28d40 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffceb793', endColorstr='#ffc28d40', GradientType=0);
+}
+body .container .pageContent .mapPage .mapMarker .placeMarker.primary .pointer {
+  color: #c28d40;
+}
+body .container .pageContent .mapPage .mapMarker .placeMarker.selected .title {
+  background-image: -webkit-linear-gradient(top, #99d793 0%, #5ebc5e 100%);
+  background-image: -o-linear-gradient(top, #99d793 0%, #5ebc5e 100%);
+  background-image: linear-gradient(to bottom, #99d793 0%, #5ebc5e 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff99d793', endColorstr='#ff5ebc5e', GradientType=0);
+}
+body .container .pageContent .mapPage .mapMarker .placeMarker.selected .pointer {
+  color: #5ebc5e;
+}
+body .container .pageContent .photoPage {
+  padding-left: 40px;
+}
+body .container .pageContent .photoPage .imagePopupTrigger {
+  padding: 8px;
+}
+body .container .pageContent .registry a.registryLink {
+  font-weight: bold;
+  background-color: #fffbee;
+}
+body .container .pageContent .registry .thanks .names {
+  padding-left: 1em;
+}
+body .container .pageContent form.userInvite .form-group {
+  margin-bottom: 5px;
+}
+body .container .pageContent form.userInvite .form-group label {
+  padding-bottom: 0.4em;
+}
+body .container .pageContent form.userInvite #messageBefore {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+body .container .pageContent form.userInvite .sampleResetUrl {
+  padding-top: .5em;
+  padding-bottom: .5em;
+  padding-left: 0.9em;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  margin-bottom: 0;
+}
+body .container .pageContent form.userInvite #messageAfter {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+body .container .pageContent .menuSelectionPage select.menuType {
+  width: 16em;
+}
+body .container .pageContent .menuSelectionPage tr.selected label {
+  font-weight: bold;
+}
+body .container .pageContent .menuSelectionPage tr.unselected label {
+  font-weight: lighter;
+}
+body .container .pageContent .menuSelectionPage label {
+  font-weight: normal;
+}
+body .container .pageContent .menuSelectionPage label.choicePending {
+  font-style: italic;
+}
+body .container .pageContent .menuSelectionPage .saveChoicesOuter {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+body .container .seatingPlan .modeSelect {
+  margin-bottom: 4px;
+}
+body .container .seatingPlan .party {
+  cursor: pointer;
+  border-bottom: solid gray 1px;
+}
+body .container .seatingPlan .party .guest {
+  border-bottom: solid lightgrey 1px;
+}
+body .container .seatingPlan .row {
+  margin-bottom: 1em;
+}
+body .container .seatingPlan .seatBlock {
+  border: solid grey 1px;
+  border-radius: 4px;
+}
+body .container .seatingPlan .seatBlock .seatBlockHeading {
+  background-color: lightgrey;
+  font-weight: bold;
+  padding: 0.4em;
+}
+body .container .seatingPlan .seatBlock .seatBlockBody {
+  min-width: 6em;
+  min-height: 6em;
+  padding: 0.4em;
+}
+body .container .seatingPlan .seatBlock .seatBlockBody input[type="text"] {
+  width: 10em;
+}
+body .container .seatingPlan .seatBlock.tall {
+  min-height: 30em;
+}
+body .container .seatingPlan.seatingPlanGuest .row {
+  padding-top: 1.6em;
+}
+body .container .seatingPlan.seatingPlanGuest .seatBlock {
+  border-radius: 20px;
+  border-top: none;
+  min-height: 17em;
+  margin-right: 1em;
+  margin-bottom: 2em;
+  font-size: 1.2em;
+}
+body .container .seatingPlan.seatingPlanGuest .seatBlock .seatBlockHeading {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  text-align: center;
+}
+body .container .seatingPlan.seatingPlanGuest .seatBlock .seatBlockBody {
+  padding: .5em 1em;
+}
+body .container .seatingPlan.seatingPlanGuest .seatBlock .seatBlockBody p {
+  margin-bottom: 0.15em;
+}
+body .container .seatingPlan.seatingPlanGuest .seatBlock .seatBlockBody p.viewer {
+  font-weight: bold;
+  font-size: 1.3em;
+}
+body .container .seatingPlan.seatingPlanGuest .seatBlock.seatBlockHeadTable {
+  margin-top: 22em;
+  min-height: 28em;
+}
+body .container .seatingPlan.seatingPlanGuest .seatBlock.seatBlockHeadTable .seatBlockBody {
+  margin-top: 5em;
+}
+body .container .seatingPlan.seatingPlanGuest .seatBlock.seatBlockHeadTable .seatBlockBody p {
+  margin-bottom: 1.1em;
+}
+body .container .seatingPlan.seatingPlanGuest .seatingColumn3 {
+  margin-top: 10em;
+}
+body .container .footer {
+  padding: 4px 20px;
+  text-align: center;
+  background-color: #452718;
+  color: #fff4d4;
+}
+body .container .footer a {
+  color: #fff4d4;
+  text-decoration: dashed;
+}
+body .profiles .saveNote {
+  padding-right: 1em;
+}
+body .profiles table.contactMethods {
+  width: 50%;
+}
+body .profiles table.contactMethods tr {
+  border: none;
+}
+body .profiles table.contactMethods tr th {
+  text-align: right;
+  border: none;
+}
+body .profiles table.contactMethods tr th input[type="text"],
+body .profiles table.contactMethods tr th input[type="url"] {
+  width: 12em;
+}
+body .profiles table.contactMethods tr td {
+  border: none;
+}
+body .profiles table.contactMethods tr td input[type="text"],
+body .profiles table.contactMethods tr td input[type="url"] {
+  width: 34em;
+}
+body .profiles table.contactMethods tr td input[type="text"]#twitterInput,
+body .profiles table.contactMethods tr td input[type="url"]#twitterInput {
+  width: 10em;
+}
+body .profiles table.contactMethods tr.formError td {
+  color: red;
+}
+body .profiles ul.profiles li {
+  list-style: none;
+}
+body .profiles ul.profiles li a {
+  display: inline-block;
+  margin-left: 0.4em;
+  min-width: 8em;
+}

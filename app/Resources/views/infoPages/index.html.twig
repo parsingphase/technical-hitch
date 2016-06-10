@@ -1,0 +1,16 @@
+{% extends 'infoPage.html.twig' %}
+
+{% block pageContent %}
+    <h1>Information</h1>
+    <ul>
+        {% for link,linkTitle in validPages %}
+            {% if link != infoPage %}
+                <li><a href="{{ path('wedding_info',{page: link}) }}">{{ linkTitle }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <p>More information will follow. If you have any questions in the meantime, please contact us via the links
+        below.</p>
+
+{% endblock %}

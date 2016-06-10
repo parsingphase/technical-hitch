@@ -1,0 +1,103 @@
+<div class="weddingMailer">
+    <div class="well hidden">C: {[{ contacts }]}</div>
+    <div class="well hidden">T ({[{currentTemplate }]}) : {[{ messageTemplates }]}</div>
+
+    <div class="well"><h3>Templates</h3>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <td></td>
+                <th>id</th>
+                <th>Identifier</th>
+                <th>Subject</th>
+                <th>Body</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="template in messageTemplates">
+                <td>
+                    <button class="btn btn-default btn-sm" ng-click="setCurrentTemplate($index)"><span
+                            class="fa fa-edit"></span></button>
+                </td>
+                <td>{[{ template.id }]}</td>
+                <td>{[{ template.identifier }]}</td>
+                <td>{[{ template.subject.substring(0,30) }]}…</td>
+                <td>{[{ template.body.substring(0,100) }]}…</td>
+                <!--<td>{[{ template.sent }]}</td>-->
+            </tr>
+            </tbody>
+        </table>
+        <div class="newTemplateOuter">
+            <button class="btn btn-primary" ng-click="createNewTemplate()">New template</button>
+        </div>
+    </div>
+
+
+    <div class="editTemplate well">
+        <p ng-if="!messageTemplates[currentTemplate]">
+            Select a template above.
+        </p>
+        <form class="emailTemplateForm form-horizontal" autocomplete="off" ng-if="messageTemplates[currentTemplate]">
+            <div class="form-group">
+                <label for="identifier" class="col-sm-1 control-label name-label">Identifier</label>
+                <input type="text" class="form-control" id="identifier"
+                       ng-model="messageTemplates[currentTemplate].identifier"
+                       placeholder="IDENTIFIER"/>
+            </div>
+            <div class="form-group">
+                <label for="subject" class="col-sm-1 control-label name-label">Subject</label>
+                <input type="text" class="form-control" id="subject"
+                       ng-model="messageTemplates[currentTemplate].subject"
+                       placeholder="Subject"/>
+            </div>
+            <div class="form-group">
+                <label for="body" class="col-sm-1 control-label name-label">Body</label>
+            <textarea class="form-control" id="body"
+                      ng-model="messageTemplates[currentTemplate].body"
+                      rows="8"
+                      placeholder="Body"></textarea>
+            </div>
+            <div class="saveTemplateOuter">
+                <span class="btn btn-success" ng-click="saveCurrentTemplate()">Save Template</span>
+            </div>
+            <div class="clearfix"></div>
+        </form>
+    </div>
+
+    <div class="well">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th><span class="fa fa-check"></span></th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>RSVP</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="contact in contacts">
+                <td>
+                    <span ng-show="currentTemplate!==null">
+                    <input type="checkbox"
+                           id="sendTo[{[{contact.contactEmail}]}]"
+                           ng-model="contact.sendTo"
+                           ng-if="!contact.sent"
+                    />
+                    <span class="fa fa-mail-forward" ng-if="contact.sent"></span>
+                    </span>
+                </td>
+                <td><label for="sendTo[{[{contact.contactEmail}]}]">{[{contact.contactName}]}</label></td>
+                <td>{[{contact.contactEmail}]}</td>
+                <td>{[{contact.rsvp}]}</td>
+                <td>{[{contact.position}]}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="sendToRecipientsOuter">
+            <button class="btn btn-warning"
+                    ng-disabled="!sendable()"
+                    ng-click="sendCurrentTemplate()">Send to recipients
+            </button>
+        </div>
+    </div>
+</div>

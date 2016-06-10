@@ -1,0 +1,253 @@
+{% extends 'base.html.twig' %}
+
+{% block wrapperClass %}menuChoices{% endblock %}
+
+{% block pageContent %}
+    <div ng-app="weddingApp">
+        <h1>Dining choices</h1>
+        <p>After a very enjoyable evening tasting at the venue, we've selected the following options
+            for the Wedding Breakfast which hopefully include something to suit everyone's tastes. </p>
+        <p>Please make your selections for each member of your wedding party from the options below.
+            Adults have a choice of three options for each course, and children have their own menu which will
+            need to be agreed on before the event. The venue charges slightly different rates by age so we need
+            to note these for anyone under 18.</p>
+        <p>We'll also be serving canapées with the photos after the ceremony and a buffet at the evening
+            entertainment.</p>
+        <p>If you need to make any changes to your wedding party to fill this out, you can do this on the
+            <a href="{{ path('wedding_homepage') }}#rsvp">front page</a>.</p>
+        <p>We'll need all selections by early April. Please remember to save any changes. </p>
+        {% if guests %}
+            <div class="menuSelectionPage ng-cloak" ng-controller="MenuSelectionCtrl">
+                <div ng-if="!loaded">
+                    Loading…
+                </div>
+
+                <div ng-if="settings.enableMenuResponses">
+                    <div ng-if="loaded">
+
+                        <div class="row saveChoicesOuter">
+                            <div class="col-sm-9">
+                                <div class="alert alert-{[{storeMessage.result}]}" ng-if="storeMessage">
+                                    {[{storeMessage.text}]}
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <button class="btn btn-success"
+                                        ng-disabled="savedHash == generateScopeHash()"
+                                        ng-click="saveChoices()"><span class="fa fa-save"></span>
+                                    <span ng-if="savedHash != generateScopeHash()">Save choices</span>
+                                    <span ng-if="savedHash == generateScopeHash()">No changes</span>
+                                </button>
+                            </div>
+                        </div>
+
+
+                        {% for guest in guests %}
+                            <h3>{{ guest.name }} {% if guest.rsvp %}({{ guest.rsvp|capitalize }}){% else %}(Attendance TBC){% endif %}</h3>
+                            {#{{ dump(guest) }}#}
+                            {% if not guest.isPrimary %}
+                                <select class="form-control menuType"
+                                        title="Menu"
+                                        ng-model="menus['{{ guest.id }}']"
+                                        ng-change="setDefaults('{{ guest.id }}')"
+                                >
+                                    <option value=""> - Please select menu -</option>
+                                    {% for ageCategory, ageGroup in mealTypes %}
+                                        <optgroup label="{{ ageCategory }} Menu">
+                                            {% for age, ageDescription in ageGroup %}
+                                                <option value="{{ age }}">{{ ageDescription }}</option>
+                                            {% endfor %}
+                                        </optgroup>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+
+                            <div class="adultMenu" ng-if="isAdultMealAge(menus['{{ guest.id }}'])">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <td colspan="2">Please select one option for each course</td>
+                                    </tr>
+                                    </thead>
+                                    {% for course, courseOptions in adultMenu %}
+                                        <tr>
+                                            <th colspan="2">{{ course }}
+                                                <span
+                                                        class="pull-right">
+                                    <input type="radio" name="{{ course }}_{{ guest.id }}"
+                                           id="{{ course }}_{{ guest.id }}_tbc"
+                                           ng-model="{{ course }}['{{ guest.id }}']"
+                                           value="tbc"/>
+                                     <label for="{{ course }}_{{ guest.id }}_tbc" class="choicePending">No choice
+                                         yet</label>
+                                </span>
+                                            </th>
+                                        </tr>
+                                        {% for courseKey, courseDescription in courseOptions %}
+                                            <tr ng-class="menuRowClass('{{ courseKey }}','{{ course }}','{{ guest.id }}')">
+                                                <td><input type="radio" name="{{ course }}_{{ guest.id }}"
+                                                           ng-model="{{ course }}['{{ guest.id }}']"
+                                                           id="{{ course }}_{{ guest.id }}_{{ courseKey }}"
+                                                           value="{{ courseKey }}">
+                                                </td>
+                                                <td>
+                                                    <label for="{{ course }}_{{ guest.id }}_{{ courseKey }}">{{ courseDescription }}</label>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </table>
+                            </div>
+
+                            <div class="childMenu" ng-if="isChildMealAge(menus['{{ guest.id }}'])">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <td colspan="2">
+                                            <p>Child menus are a little more involved as it appears we can only choose
+                                                one
+                                                meal
+                                                for
+                                                all children, so we need to find something they'll all be happy
+                                                with.</p>
+                                            <p>Please take a look at the options below, and use the text area to tell us
+                                                which they'd prefer and anything they wouldn't eat.</p>
+                                        </td>
+                                    </tr>
+                                    </thead>
+                                    {% for course, courseOptions in childMenu %}
+                                        <tr>
+                                            <th colspan="2">{{ course }}</th>
+                                        </tr>
+                                        {% for courseKey, courseDescription in courseOptions %}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ courseDescription }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </table>
+                                <h4>Preferences</h4>
+                <textarea class="form-control" rows="3"
+                          ng-model="preferences['{{ guest.id }}']"
+                          placeholder="{{ guest.name }}'s preferences and dislikes"></textarea>
+                            </div>
+
+                            <div ng-if="menus['{{ guest.id }}'] == 'NoMeal'">
+                                No meal will be provided for this infant; please let us know on the
+                                <a href="{{ path('wedding_homepage') }}#rsvp">homepage</a> if you'd like a
+                                highchair or similar.
+                            </div>
+
+                        {% endfor %}
+
+                        {#<div class="well">#}
+                        {#<p>Menus: {[{ menus }]}</p>#}
+                        {#<p>Starter: {[{ Starter }]}</p>#}
+                        {#<p>Main: {[{ Main }]}</p>#}
+                        {#<p>Dessert: {[{ Dessert }]}</p>#}
+                        {#<p>preferences: {[{ preferences }]}</p>#}
+                        {#</div>#}
+
+                        <div class="row saveChoicesOuter">
+                            <div class="col-sm-9">
+                                <div class="alert alert-{[{storeMessage.result}]}" ng-if="storeMessage">
+                                    {[{storeMessage.text}]}
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <button class="btn btn-success"
+                                        ng-disabled="savedHash == generateScopeHash()"
+                                        ng-click="saveChoices()"><span class="fa fa-save"></span>
+                                    <span ng-if="savedHash != generateScopeHash()">Save choices</span>
+                                    <span ng-if="savedHash == generateScopeHash()">No changes</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div ng-if="!settings.enableMenuResponses">
+                    <p><b>Menu responses are now closed</b> so that all choices can be sent to the venue.
+                        Here are the choices recorded for your party.</p>
+                    <div ng-if="loaded">
+
+
+                        {% for guest in guests %}
+                            <h3>{{ guest.name }} {% if guest.rsvp %}({{ guest.rsvp|capitalize }}){% else %}(No reply){% endif %}
+                                :
+                                {[{ menus['{{ guest.id }}'] }]}
+                            </h3>
+
+                            <div ng-if="!menus['{{ guest.id }}']">
+                                <p>As we don't have a menu selection recorded for you, we'll assign you one randomly.</p>
+                            </div>
+
+                            <div class="adultMenu" ng-if="isAdultMealAge(menus['{{ guest.id }}'])">
+                                <table class="table table-striped">
+                                    {% for course, courseOptions in adultMenu %}
+                                        <tr>
+                                            <th>{{ course }}</th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                {#{{ guest['menu'][course|lower] }}#}
+                                                {{ adultMenu[course][guest['menu'][course|lower]]|default('n/a') }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+
+                            <div class="childMenu" ng-if="isChildMealAge(menus['{{ guest.id }}'])">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>Starter</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Fresh melon with ham</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Main</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Roast chicken with gravy, vegetables and mash</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Dessert</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Selection of ice cream</td>
+                                    </tr>
+                                </table>
+                                {#<h4>Preferences</h4>#}
+                                {#{[{preferences['{{ guest.id }}']}]}#}
+                            </div>
+
+                            <div ng-if="menus['{{ guest.id }}'] == 'NoMeal'">
+                                No meal will be provided for this infant.
+                            </div>
+
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>Please add your party's names on the
+                <a href="{{ path('wedding_homepage') }}">homepage</a> before filling out the menu selection.</p>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        angular.module('weddingApp').constant("csrf", {{ csrf_token('menuChoices')|json_encode|raw }});
+        angular.module('weddingApp').constant("settings", {{ settings|default(null)|json_encode|raw }});
+    </script>
+{% endblock %}

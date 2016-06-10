@@ -1,0 +1,21 @@
+{% extends 'infoPage.html.twig' %}
+
+{% block pageContent %}
+    {% include 'kiosk/dining.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% if not app.request.query.get("NOJS") %}
+        <script type="text/javascript">
+            var guestNames = {{ guestNames|default([])|json_encode|raw }};
+
+            $('.seatBlock p').each(function() {
+                var paraName = $(this).text().trim();
+                if (guestNames.indexOf(paraName) !== -1) {
+                    $(this).addClass('viewer');
+                } //FIXME make case-insensitive
+            });
+        </script>
+    {% endif %}
+{% endblock %}

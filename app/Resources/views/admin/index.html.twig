@@ -1,0 +1,13 @@
+{% extends 'adminPage.html.twig' %}
+
+{% block pageContent %}
+<h1>Admin</h1>
+    <ul>
+        <li><a href="{{ path('admin_users') }}">Users</a></li>
+        <li><a href="{{ path('admin_send_emails') }}">Bulk mailer</a></li>
+        <li><a href="{{ path('admin_invite_user') }}">Invite user</a></li>
+        <li><a href="{{ path('admin_seating') }}">Seating</a></li>
+        <li><a href="{{ path('admin_settings') }}">Settings</a></li>
+
+    </ul>
+{% endblock %}

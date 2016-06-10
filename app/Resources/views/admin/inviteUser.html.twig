@@ -1,0 +1,104 @@
+{% extends 'adminPage.html.twig' %}
+
+{% block pageContent %}
+    {% if sent %}
+        {% if failedRecipients %}
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Failed to send to all recipients</h3>
+                </div>
+                <div class="panel-body">
+                    Failed:
+                    <ul>
+                        {% for recipient in failedRecipients %}
+                            <li>{{ recipient }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% else %}
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sent to all recipients</h3>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li>{{ user.username }} &lt;{{ user.email }}&gt;</li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Message</h3>
+            </div>
+            <div class="panel-body">
+               <table class="table table-striped">
+                   <tr><th>To: </th><td>{{ user.username }} &lt;{{ user.email }}&gt;</td></tr>
+                   <tr><th>BCC: </th><td>{{ bcc }}</td></tr>
+                   <tr><th>Subject: </th><td>{{ message.subject }}</td></tr>
+                   <tr><td colspan="2">{{ message.body|nl2br }}</td> </tr>
+               </table>
+            </div>
+        </div>
+
+    {% else %}
+        <form class="form-horizontal userInvite" autocomplete="off" action="{{ path('admin_invite_user') }}"
+              method="POST">
+            <input type="hidden" name="token" value="{{ csrf_token(tokenIntent) }}"/>
+            <h4>Invite new user</h4>
+            <div class="form-group">
+                <label for="username" class="col-sm-1 control-label name-label">Name</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" name="newUserName"
+                           placeholder="Full Name">
+                </div>
+
+                <label for="newUserEmail" class="col-sm-1 control-label">Email</label>
+                <div class="col-sm-4">
+                    <input type="email" class="form-control" name="newUserEmail"
+                           placeholder="Email">
+                </div>
+
+                <div class="col-sm-3">
+                    <select name="userRole" title="User Role" class="form-control">
+                        <option value="ROLE_WEDDING_GUEST" selected="selected">Wedding Guest</option>
+                        <option value="ROLE_OBSERVER">Observer</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="subject" class="col-sm-1 control-label">Subject</label>
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" name="subject"
+                           placeholder="Email subject">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="message" class="col-sm-1 control-label">Message</label>
+                <div class="col-sm-12">
+                <textarea class="form-control" rows="3" id="messageBefore" name="messageBefore"
+                          placeholder="Text before URL"></textarea>
+                </div>
+
+                <div class="col-sm-12">
+                    <p class="sampleResetUrl">{{ sampleUrl }}</p>
+                </div>
+                <div class="col-sm-12">
+                <textarea class="form-control" rows="2" id="messageAfter" name="messageAfter"
+                          placeholder="Text after URL">All the best,
+   The Bride and Groom
+                </textarea>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary pull-right"><span class="fa fa-envelope"></span> Send
+                    invitation
+                </button>
+            </div>
+            <div class="clearfix"></div>
+
+        </form>
+    {% endif %}
+{% endblock %}

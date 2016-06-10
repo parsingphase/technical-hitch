@@ -1,0 +1,42 @@
+<div class="schedule">
+    <h1>Schedule</h1>
+
+    <p>The wedding will take place on
+        <!-- FIXME TODO obviously, hardcode this to your own date! -->
+        {{ "now"|date_modify("+1 month")|date("jS F Y") }}.</p>
+    <p><strong>The ceremony will begin at 2pm sharp</strong>; please ensure you are seated by this time.
+    </p>
+
+    <dl>
+        <dt>1pm onwards</dt>
+        <dd><strong>Guests arrive</strong> and can relax in the bar or terrace</dd>
+
+        <dt>2pm</dt>
+        <dd>{% if kioskMode is defined %}<strong>Ceremony</strong>{% else %}<a href="ceremony"><strong>Ceremony</strong></a>{% endif %}
+            in the Slightly Orange Room
+        </dd>
+
+        <dt>followed by</dt>
+        <dd><strong>Drinks, <a href="dining#canapes">canapés</a> and photos</strong> on the lawn
+        </dd>
+        <dt>4pm</dt>
+        <dd><strong><a href="dining#breakfast">Wedding Breakfast</a></strong>
+        </dd>
+        <dt>followed by</dt>
+        <dd>Speeches and Cake Cutting</dd>
+
+        <dt>7pm</dt>
+        <dd><strong>Evening entertainment</strong></dd>
+        <dd>Music, dancing and drinks with live DJ</dd>
+        <dd>Cake served from 7</dd>
+
+        <dt>7:30pm</dt>
+        <dd>First dance</dd>
+
+        <dt>9pm</dt>
+        <dd>Evening <a href="dining#buffet">buffet</a></dd>
+
+        <dt>12 Midnight</dt>
+        <dd>Carriages</dd>
+    </dl>
+</div>

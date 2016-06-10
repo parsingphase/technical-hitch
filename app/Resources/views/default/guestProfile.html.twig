@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+
+{% block wrapperClass %}profiles{% endblock %}
+
+{% block pageContent %}
+    <div ng-app="weddingApp" ng-controller="profileCtrl" ng-cloak>
+
+        <div><a href="{{ url('profile') }}"><span class="fa fa-caret-left"></span> Back to index</a></div>
+
+        {% if guestData.userId == app.user.id %}
+            <div class="pull-right" ng-if="mode=='view'">
+                <button class="btn btn-success"
+                        ng-click="edit()"><span class="fa fa-edit"></span> Edit
+                </button>
+            </div>
+            <div class="pull-right" ng-if="mode=='edit'">
+                <span ng-if="saved" class="saveNote">Saved </span>
+                <button class="btn btn-danger"
+                        ng-click="save()"
+                        ng-disabled="!allValid"
+                ><span class="fa fa-save"></span> Save
+                </button>
+                <button class="btn btn-default"
+                        ng-click="view()"><span class="fa fa-eye"></span> View
+                </button>
+            </div>
+        {% endif %}
+
+        <h1>{{ guestData.contactName }}</h1>
+
+        {% if not (guestData.photoUrl or guestData.facebook or guestData.twitter or guestData.otherLinkUrl) %}
+            <p ng-if="mode=='view'">This user has not added any profile links</p>
+        {% endif %}
+
+        {#<div>{[{ model }]}</div>#}
+
+        <table class="table contactMethods" ng-if="mode=='view'">
+            {#    <tr>
+                <th>Message</th>
+                <td>
+                    <button class="btn btn-default btn-sm"
+                            {% if not guestData.allowMessages %}disabled="disabled"
+                            title="This guest has not enabled messaging" {% endif %}
+                    ><span class="fa fa-envelope-o"></span></button>
+                </td>
+            </tr>#}
+
+            {% if guestData.photoUrl %}
+                <tr>
+                    <th>Photos</th>
+                    <td><a href="{{ guestData.photoUrl }}">{{ guestData.photoUrl }}</a></td>
+                </tr>
+            {% endif %}
+
+            {% if guestData.facebook %}
+                <tr>
+                    <th>Facebook</th>
+                    <td><a href="{{ guestData.facebook }}">{{ guestData.facebook }}</a></td>
+                </tr>
+            {% endif %}
+
+            {% if guestData.twitter %}
+                <tr>
+                    <th>Twitter</th>
+                    <td><a href="https://twitter.com/{{ guestData.twitter|replace('@','') }}">{{ guestData.twitter }}</a></td>
+                </tr>
+            {% endif %}
+
+
+            {% if guestData.otherLinkUrl %}
+                <tr>
+                    <th>{{ guestData.otherLinkName|default('Other') }}</th>
+                    <td><a href="{{ guestData.otherLinkUrl }}">{{ guestData.otherLinkUrl }}</a></td>
+                </tr>
+            {% endif %}
+        </table>
+
+        {# ------------------- #}
+        <div ng-if="mode=='edit'">
+            <div ng-if="!model">
+                <span class="fa fa-spinner fa-spin"></span> Loading…
+            </div>
+
+            <div class="panel panel-danger" ng-if="errors && errors.length">
+                <div ng-repeat="error in errors">{[{error}]}</div>
+            </div>
+
+            <form name="profileForm">
+                <table class="table contactMethods" ng-if="model">
+                    {#            <tr>
+                                    <th><label
+                                                for="allowMessagesInput"
+                                                title="Allow other guests to send you messages">Allow Messages</label></th>
+                                    <td>
+                                        <input type="checkbox" ng-model="model.allowMessages" name="allowMessagesInput"/>
+                                    </td>
+                                </tr>#}
+
+                    <tr>
+                        <th><label for="photoUrlInput">Photo URL</label></th>
+                        <td><input type="url"
+                                   ng-model="model.photoUrl"
+                                   name="photoUrlInput"
+                                   placeholder="https://link.to.site/with/wedding/photos"
+                            ></td>
+                    </tr>
+                    <tr ng-if="!valid.photoUrl" class="formError">
+                        <td></td>
+                        <td>Must be a valid link</td>
+                    </tr>
+
+                    <tr>
+                        <th><label for="facebookUrlInput">Facebook URL</label></th>
+                        <td><input type="url"
+                                   ng-model="model.facebook"
+                                   name="facebookUrlInput"
+                                   placeholder="https://www.facebook.com/username"
+                            ></td>
+                    </tr>
+                    <tr ng-if="!valid.facebook" class="formError">
+                        <td></td>
+                        <td>Must be a valid facebook link</td>
+                    </tr>
+
+                    <tr>
+                        <th><label for="twitterInput">Twitter</label></th>
+                        <td><input type="text"
+                                   ng-model="model.twitter"
+                                   name="twitterInput"
+                                   placeholder="@username"></td>
+                    </tr>
+                    <tr ng-if="!valid.twitter" class="formError">
+                        <td></td>
+                        <td>Must be in the format '@username'</td>
+                    </tr>
+
+                    <tr>
+                        <th><input type="text"
+                                   title="Name of other site"
+                                   ng-model="model.otherLinkName"
+                                   placeholder="Name of other site"
+                            /></th>
+                        <td><input type="url"
+                                   title="URL of other site"
+                                   placeholder="URL of other site" ng-model="model.otherLinkUrl"/></td>
+                    </tr>
+                    <tr ng-if="!valid.otherLinkName" class="formError">
+                        <td></td>
+                        <td>Name is required if a URL is set</td>
+                    </tr>
+                    <tr ng-if="!valid.otherLinkUrl" class="formError">
+                        <td></td>
+                        <td>URL must be valid</td>
+                    </tr>
+
+                </table>
+            </form>
+        </div>
+        {#{{ dump(guestData) }}#}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        angular.module('weddingApp')
+                .constant("csrf", {{ csrf_token('guestProfile')|json_encode|raw }})
+                .constant("profileId", {{ guestId|json_encode|raw }});
+    </script>
+{% endblock %}

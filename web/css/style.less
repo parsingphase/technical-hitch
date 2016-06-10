@@ -1,0 +1,587 @@
+@import "../../node_modules/bootstrap/less/mixins/gradients";
+
+@mainTextColor: #452718;
+@inviteNameTextColor: #dfb85b;
+@backgroundPeachColor: #fff4d4;
+@navbarBackground: desaturate(darken(@backgroundPeachColor, 10%), 20%);
+
+body {
+  background-color: @backgroundPeachColor;
+  color: @mainTextColor;
+  a {
+    color: lighten(@mainTextColor, 20%);
+  }
+
+  .panel {
+    .panel-heading {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    p {
+      padding: 0.4em 1em;
+    }
+  }
+
+  //ngdialog binds to body
+  .ngdialog.ngdialog-theme-default {
+    padding-top: 60px;
+    &.imagePopupNoBorder {
+      .ngdialog-content {
+        width: 640px;
+        padding: 20px;
+        background: none;
+        text-align: center;
+      }
+      .ngdialog-close:before {
+        border: solid #FFFFFF 2px;
+        border-radius: 15px;
+        background-color: #000000;
+        line-height: 22px;
+      }
+    }
+
+    &.imagePopupBordered {
+      .ngdialog-content {
+        width: 660px;
+        text-align: center;
+        padding: 20px 30px;
+      }
+      .ngdialog-close:before {
+        //border: solid #FFFFFF 2px;
+        //border-radius: 15px;
+        //background-color: #000000;
+        //line-height: 22px;
+      }
+    }
+
+    &.contactRequirementsPopup {
+      .panel {
+        margin-top: 20px;
+      }
+    }
+  }
+
+  nav.navbar {
+    min-height: 40px; // reduced from 50
+    margin-bottom: 0;
+    //background-color: lighten(@inviteNameTextColor, 20%);
+    background-color: @navbarBackground;
+    border-color: desaturate(darken(@backgroundPeachColor, 10%), 40%);
+    border-left: none;
+    border-right: none;
+    background-image: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+
+    .navbar-header {
+      width: 100%;
+      //padding-left: 2em;
+      padding-right: 2em;
+
+      .navbar-text {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        color: @mainTextColor;
+      }
+      .navbar-nav {
+        li {
+          &.dropdown {
+            background-color: lighten(@navbarBackground, 3%);
+            //border-left: solid darken(@navbarBackground, 25%) 1px;
+            //border-right: solid darken(@navbarBackground, 10%) 1px;
+            &:last-of-type {
+              border-right: none;
+            }
+
+            span.dropdown-label {
+              padding-left: 12px;
+            }
+          }
+
+          a {
+            &.pre-dropdown {
+              display: inline-block;
+              padding-right: 0;
+              &.dropdown-toggle {
+                padding-left: 5px;
+                padding-right: 10px;
+              }
+            }
+            padding-top: 10px;
+            padding-bottom: 10px;
+            color: @mainTextColor;
+          }
+
+          &.photoLink {
+            background-color: lighten(@navbarBackground, 3%);
+          }
+        }
+      }
+    }
+  }
+
+  .container {
+    max-width: 800px;
+    .pageContent {
+      h1 {
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      padding: 20px;
+      background-color: #FFFFFF;
+
+      .weddingSignup {
+        &.well {
+          // possibly not used as no well class
+          background-color: #f9f9f9;
+          background-image: none;
+          h3, h4 {
+            margin-top: 0
+          }
+        }
+
+        .weddingSignupForm {
+          .form-group:last-of-type {
+            margin-bottom: 10px;
+          }
+
+          .addRowOuter, .submitContactsOuter {
+            margin-bottom: 0.5em;
+            text-align: right;
+            padding-right: 0;
+          }
+
+          // major tweaking for RSVP form.
+          label.col-sm-1 {
+            padding-left: 10px;
+            padding-right: 5px;
+            white-space: nowrap;
+            text-wrap: none;
+            width: 6%;
+            &.name-label {
+              width: 8.3333%;
+              padding-left: 20px;
+            }
+          }
+
+          div.col-sm-2.rsvp-holder {
+            width: 19.5%;
+          }
+
+          .requirements {
+            border: solid lightgrey 1px;
+            margin-bottom: 1em;
+            border-radius: 4px;
+          }
+
+          .requirementsHeader {
+            position: relative;
+            top: -0.7em;
+            padding: 0 8px;
+            background-color: #FFFFFF;
+            display: inline-block;
+            cursor: pointer;
+            .fa {
+              padding-left: 2px;
+              //font-size: 1.4em;
+            }
+          }
+
+          .requirementsLower {
+            padding: 0 8px;
+          }
+        }
+      }
+
+      .imagePopupTrigger {
+        cursor: pointer;
+      }
+
+      .weddingUserAdmin {
+        th {
+          min-width: 4em;
+          padding-right: 0;
+          vertical-align: top;
+          p.headerNote {
+            font-weight: normal;
+            margin-bottom: 0;
+          }
+        }
+        .sortControl {
+          font-size: 1.2em;
+          display: inline-block;
+          height: 1em;
+          width: 1.4em;
+          .fa {
+            height: 0.5em;
+            line-height: 0.5em;
+            padding-bottom: 0.1em;
+            width: 1em;
+            float: right;
+            cursor: pointer;
+          }
+        }
+
+        td.userContacts {
+          //padding-top: 0;
+          .contactsSubTable.table {
+            margin-bottom: 0;
+
+            td.contactInfoIcon {
+              min-width: 26px;
+            }
+
+            & > tbody > tr:first-of-type > td {
+              padding-top: 0;
+            }
+
+            & > tbody > tr > td {
+              border-top: none;
+            }
+
+            span.showRequirements {
+              cursor: pointer;
+            }
+          }
+        }
+        .menuChoices tr {
+          &.guestAbsent {
+            td, th {
+              text-decoration: line-through;
+              color: #888;
+            }
+          }
+        }
+      }
+
+      .weddingMailer {
+        .saveTemplateOuter, .newTemplateOuter, .sendToRecipientsOuter {
+          margin-bottom: 0.5em;
+          text-align: right;
+          padding-right: 0;
+        }
+      }
+
+      .attractions,
+      .schedule {
+        dl {
+          margin-left: 1em;
+          dd {
+            margin-left: 1em;
+            margin-bottom: 1em;
+          }
+        }
+      }
+
+      .aboutUs {
+        .thumbnails {
+          width: 730px;
+          .thumbnail {
+            width: 220px;
+            height: 230px;
+            margin: 5px;
+            padding: 0 10px;
+            text-align: center;
+            position: relative;
+
+            img {
+              position: relative;
+              top: 115px;
+              -webkit-transform: translateY(-50%);
+              -ms-transform: translateY(-50%);
+              transform: translateY(-50%);
+              border: lightgrey 1px solid;
+            }
+
+          }
+        }
+      }
+
+      .mapPage {
+        .wideMap {
+          width: 100%;
+          height: 500px;
+          background-color: #f9f9f9;
+        }
+
+        .btn.mapReset {
+          margin-top: 15px;
+          margin-bottom: 10px;
+        }
+
+        .mapFeatureTrigger {
+          //color: #3177cd;
+          cursor: pointer;
+        }
+
+        .mapMarker {
+          height: 40px; // centred on specified lat-long point - actual height defined in JS
+
+          .placeMarker {
+            //border: solid grey 1px;
+            margin-bottom: -10px; // as per pointer span
+            .title {
+              #gradient > .vertical(#49bdd7; #3177cd);
+              height: 30px; // fits neatly in top of mapMarker
+              color: white;
+              font-weight: bold;
+              padding: 3px;
+              border-radius: 8px;
+              text-align: center;
+              border: solid white 2px;
+            }
+            .pointer {
+              color: #3177cd;
+              text-align: center;
+              font-size: 3em;
+              margin-top: -11px;
+              margin-bottom: -10px;
+              span {
+                height: 10px;
+              }
+            }
+            &.primary {
+              .title {
+                #gradient > .vertical(#ceb793; #c28d40);
+              }
+              .pointer {
+                color: #c28d40;
+              }
+            }
+            &.selected {
+              .title {
+                #gradient > .vertical(#99d793; #5ebc5e);
+              }
+              .pointer {
+                color: #5ebc5e;
+              }
+            }
+          }
+        }
+      }
+
+      .photoPage {
+        padding-left: 40px;
+        .imagePopupTrigger {
+          padding: 8px;
+        }
+      }
+
+      .registry {
+        a.registryLink {
+          font-weight: bold;
+          background-color: lighten(@backgroundPeachColor, 5%);
+        }
+        .thanks .names {
+          padding-left: 1em;
+        }
+      }
+
+      form.userInvite {
+        .form-group {
+          margin-bottom: 5px;
+          label {
+            padding-bottom: 0.4em;
+          }
+        }
+        #messageBefore {
+          //border-bottom: none;
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+        .sampleResetUrl {
+          padding-top: .5em;
+          padding-bottom: .5em;
+          padding-left: 0.9em;
+          border-left: 1px solid #ccc;
+          border-right: 1px solid #ccc;
+          margin-bottom: 0;
+        }
+        #messageAfter {
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+          //border-top: none;
+        }
+      }
+
+      .menuSelectionPage {
+        select.menuType {
+          width: 16em;
+        }
+
+        tr {
+          &.selected {
+            label {
+              font-weight: bold;
+            }
+          }
+          &.unselected {
+            label {
+              font-weight: lighter;
+            }
+          }
+        }
+
+        label {
+          font-weight: normal;
+          &.choicePending {
+            font-style: italic;
+          }
+        }
+
+        .saveChoicesOuter {
+          margin-top: 10px;
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+    .seatingPlan {
+      .modeSelect {
+        margin-bottom: 4px;
+      }
+      .party {
+        cursor: pointer;
+        border-bottom: solid gray 1px;
+        .guest {
+          border-bottom: solid lightgrey 1px;
+        }
+      }
+      .row {
+        margin-bottom: 1em;
+        //text-align: center;
+      }
+      .seatBlock {
+        border: solid grey 1px;
+        border-radius: 4px;
+        .seatBlockHeading {
+          background-color: lightgrey;
+          font-weight: bold;
+          padding: 0.4em;
+        }
+        .seatBlockBody {
+          min-width: 6em;
+          min-height: 6em;
+          padding: 0.4em;
+          //background-color: #00d6b2;
+          input[type="text"] {
+            width: 10em;
+          }
+        }
+        &.tall {
+          min-height: 30em;
+        }
+      }
+
+      &.seatingPlanGuest {
+        .row {
+          padding-top: 1.6em;
+        }
+        .seatBlock {
+          border-radius: 20px;
+          border-top: none;
+          min-height: 17em;
+          margin-right: 1em;
+          margin-bottom: 2em;
+
+          font-size: 1.2em;
+
+          .seatBlockHeading {
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            text-align: center
+          }
+          .seatBlockBody {
+            padding: .5em 1em;
+            p {
+              margin-bottom: 0.15em;
+              &.viewer {
+                font-weight: bold;
+                font-size: 1.3em;
+              }
+            }
+          }
+
+          &.seatBlockHeadTable {
+            margin-top: 22em;
+            min-height: 28em;
+            .seatBlockBody {
+              margin-top: 5em;
+              p {
+                margin-bottom: 1.1em;
+              }
+            }
+          }
+        }
+
+        .seatingColumn3 {
+          margin-top: 10em;
+        }
+
+      }
+    }
+
+    .footer {
+      padding: 4px 20px;
+      text-align: center;
+      background-color: @mainTextColor;
+      color: #fff4d4;
+      a {
+        color: #fff4d4;
+        text-decoration: dashed;
+      }
+    }
+  }
+
+  .profiles {
+
+    .saveNote {
+      padding-right: 1em;
+    }
+    //profiles
+    table.contactMethods {
+      width: 50%;
+      tr {
+        border: none;
+        th {
+          text-align: right;
+          border: none;
+          input[type="text"],
+          input[type="url"] {
+            width: 12em;
+          }
+        }
+        td {
+          border: none;
+          input[type="text"],
+          input[type="url"] {
+            width: 34em;
+            &#twitterInput {
+              width: 10em;
+            }
+          }
+        }
+
+        &.formError {
+          td { color: red}
+        }
+      }
+    }
+
+    //index
+    ul.profiles {
+      li {
+        list-style: none;
+        a {
+          display: inline-block;
+          margin-left: 0.4em;
+          min-width: 8em;
+        }
+      }
+    }
+  }
+
+}

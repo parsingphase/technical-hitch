@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block wrapperClass %}infoPage{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <ul class="nav navbar-nav">
+                <li><a href="/kiosk/schedule"><span class="fa fa-calendar-o"></span> Schedule</a></li>
+                <li><a href="/kiosk/dining"><span class="fa fa-cutlery"></span> Dining</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block pageContent %}
+    {% include 'kiosk/' ~ kioskPage ~ '.html.twig' %}
+{% endblock %}

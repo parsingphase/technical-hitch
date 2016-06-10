@@ -1,0 +1,31 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}
+    {{ parent() }} | Error {{ status_code }}
+{% endblock %}
+
+{% block pageContent %}
+    <h1>Oops…</h1>
+    <h3>Error {{ status_code }}: {{ status_text }}</h3>
+
+    {% if status_code==500 %}
+        <p>Something went a bit wrong with the site there.</p>
+        <p>If it keeps happening, please <a href="mailto:wedding@ourdomain.com">drop us an email</a>;
+            it may be an error in the coding that we can fix.</p>
+
+    {% elseif status_code==404 %}
+        <p>That page couldn't be found. Either the link you clicked was incorrect or you may have typed in an invalid
+            one.</p>
+        <p>This can also happen if you used the link in your validation email more than once, as the link expires after
+            use.</p>
+        <p>If you're fairly sure there should be a page here, please <a href="mailto:wedding@ourdomain.com">drop
+                us an email</a>.</p>
+    {% else %}
+        <p>Some sort of error we didn't expect has happened. If it keeps doing this please let us know.</p>
+    {% endif %}
+
+    <p>You can now continue using the site from the <a href="/">homepage</a>.</p>
+{% endblock %}
+
+{% block navlinks %}
+{% endblock %}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Our Wedding
+            {%- block subtitle %}{% if subtitle is defined %} | {{ subtitle }}{% endif %}{% endblock -%}
+        {% endblock %}</title>
+    {% block stylesheets %}
+        {% stylesheets
+        'vendor/angular/angular-csp.css'
+        'vendor/font-awesome/css/font-awesome.min.css'
+        'vendor/bootstrap/css/bootstrap.min.css'
+        'vendor/bootstrap/css/bootstrap-theme.min.css'
+        'vendor/ng-dialog/css/ngDialog.min.css'
+        'vendor/ng-dialog/css/ngDialog-theme-default.min.css'
+        'css/style.css'
+        filter='cssrewrite' output='compiled/app.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon-ring.ico') }}"/>
+</head>
+<body>
+
+{% block body %}
+    <div id="wrapper" class="{% block wrapperClass %}{% endblock %}">
+        {% block pageContainer %}
+            <div class="container">
+                <div class="mainColumn">
+
+                    {% block navbar %}
+                        <nav class="navbar navbar-default">
+                            <div class="container-fluid">
+                                <div class="navbar-header">
+                                    <ul class="nav navbar-nav">
+                                        <li><a href="/"><span class="fa fa-home"></span> Home</a></li>
+
+                                        {% block navlinks %}
+                                            {% if is_granted("ROLE_WEDDING_GUEST") %}
+
+                                                <li class="dropdown">
+                                                    <a href="#"
+                                                       class="dropdown-toggle pre-dropdown"
+                                                       data-toggle="dropdown"
+                                                       role="button"
+                                                       aria-haspopup="true"
+                                                       aria-expanded="false">
+                                                        <span class="dropdown-label"><span class="fa fa-pencil"></span> Choices</span>
+                                                        <span class="fa fa-caret-down"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a href="{{ path('wedding_homepage') }}#rsvp">Party
+                                                                RSVPs</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{ path('wedding_menu') }}">Dining choices</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+
+
+                                            {% endif %}
+                                            {% if is_granted("ROLE_OBSERVER") %}
+                                                <li class="dropdown">
+                                                    <a class="pre-dropdown"
+                                                       href="{{ path('wedding_info') }}"
+                                                       title="Schedule and Venue information"
+                                                    ><span class="fa fa-info-circle"></span> Information</a><a href="#"
+                                                                                                               class="dropdown-toggle pre-dropdown"
+                                                                                                               data-toggle="dropdown"
+                                                                                                               role="button"
+                                                                                                               aria-haspopup="true"
+                                                                                                               aria-expanded="false">
+                                                        <span class="fa fa-caret-down"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        {% if validPages is defined %}
+                                                            {% for link,linkTitle in validPages %}
+                                                                {% if link != 'index' %}
+                                                                    <li>
+                                                                        <a href="{{ path('wedding_info',{page: link}) }}">{{ linkTitle }}</a>
+                                                                    </li>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+
+                                                    </ul>
+                                                </li>
+                                            {% endif %}
+
+                                            {% if is_granted("ROLE_OBSERVER") %}
+                                                <li class="photoLink"><a href="{{ path('wedding_photos') }}"><span
+                                                                class="fa fa-camera"></span> Photos</a></li>
+                                            {% endif %}
+                                        {% endblock %}
+                                    </ul>
+                                    <p class="navbar-text pull-right"> {# navbar-right puts in unwanted -ve RH margin #}
+                                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+                                            {% if is_granted("ROLE_ADMIN") %}
+                                                <a href="{{ path('admin_index') }}" title="admin"><span
+                                                            class="fa fa-wrench"></span></a>
+                                            {% endif %}
+                                            |
+                                            <a href="{{ path('fos_user_security_logout') }}">
+                                                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </nav>
+                    {% endblock %}
+
+                    {% block centerContainer %}
+                        <div class="pageBanner">
+                            {% block pageBanner %}
+                                <img src="/images/weddingBanner.jpg"
+                                     class="img-responsive center-block"
+                                     title="Bride and Groom"/>
+                            {% endblock %}
+                        </div>
+                        <div class="pageContent">
+                            {% block pageContent %}
+                                [CONTENT]
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+
+                    {% block pageFooter %}
+                        <div class="footer">
+                            Contact us:
+                            <a href="mailto:wedding@ourdomain.com">wedding@ourdomain.com</a>
+                        </div>
+                    {% endblock %}
+                </div>
+            </div>
+
+        {% endblock %}
+
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts
+    'vendor/angular/angular.min.js'
+    'vendor/angular/angular-route.min.js'
+    'vendor/jquery/jquery.min.js'
+    'vendor/jquery/jquery-ui.min.js'
+    'app/app.js'
+    'app/controllers/weddingSignup.js'
+    'app/directives/weddingSignup.js'
+    'app/controllers/weddingUserAdmin.js'
+    'app/directives/weddingUserAdmin.js'
+    'app/controllers/weddingImagePopup.js'
+    'app/directives/weddingImagePopup.js'
+    'app/controllers/weddingMailer.js'
+    'app/directives/weddingMailer.js'
+    'app/controllers/menuSelection.js'
+    'app/directives/settings.js'
+    'app/controllers/settings.js'
+    'app/controllers/seating.js'
+    'app/controllers/profile.js'
+    'vendor/bootstrap/js/bootstrap.min.js'
+    'vendor/ng-dialog/js/ngDialog.min.js'
+    'vendor/angular/angular-dragdrop.min.js'
+    output='compiled/wedding-app.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% include 'partials/analytics.html.twig' %}
+{% endblock %}
+</body>
+</html>

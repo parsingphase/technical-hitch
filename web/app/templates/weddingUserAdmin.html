@@ -1,0 +1,190 @@
+<div class="weddingUserAdmin">
+    <div class="pull-right">
+        <div class="btn-group" role="group">
+            <button class="btn btn-default {[{ (view=='summary')?'active':''}]}"
+                    ng-click="view='summary'">Summary
+            </button>
+            <button class="btn btn-default {[{ (view=='requirements')?'active':''}]}"
+                    ng-click="view='requirements'">Guest needs
+            </button>
+            <button class="btn btn-default {[{ (view=='menu')?'active':''}]}"
+                    ng-click="view='menu'">Menu choices
+            </button>
+        </div>
+    </div>
+    <h1>Users</h1>
+    <div class="summary" ng-show="view=='summary'">
+        <table class="table table-striped ">
+            <thead>
+            <tr>
+                <th>User Name
+                    <div class="sortControl">
+                        <span class="fa fa-caret-up" ng-click="sortUsersBy('username',true)"></span>
+                        <span class="fa fa-caret-down" ng-click="sortUsersBy('username')"></span>
+                    </div>
+                </th>
+                <th>Email
+                    <div class="sortControl">
+                        <span class="fa fa-caret-up" ng-click="sortUsersBy('email',true)"></span>
+                        <span class="fa fa-caret-down" ng-click="sortUsersBy('email')"></span>
+                    </div>
+                </th>
+                <th><span class="fa fa-check"></span>
+                    <div class="sortControl">
+                        <span class="fa fa-caret-up" ng-click="sortUsersBy('enabled',true)"></span>
+                        <span class="fa fa-caret-down" ng-click="sortUsersBy('enabled')"></span>
+                    </div>
+                </th>
+                <th>Role
+                    <div class="sortControl">
+                        <span class="fa fa-caret-up" ng-click="sortUsersBy('role',true)"></span>
+                        <span class="fa fa-caret-down" ng-click="sortUsersBy('role')"></span>
+                    </div>
+                </th>
+                <th>Guests / replies
+                    <div class="sortControl">
+                        <span class="fa fa-caret-up" ng-click="sortUsersBy('rsvps',true)"></span>
+                        <span class="fa fa-caret-down" ng-click="sortUsersBy('rsvps')"></span>
+                    </div>
+                    <p class="headerNote" ng-if="rsvpTotals">
+                        Yes: {[{ rsvpTotals.yes }]}, No: {[{ rsvpTotals.no }]}
+                        &nbsp; (Dining capacity: 85)
+                    </p>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="user in users">
+                <td>{[{ user.user.name }]}</td>
+                <td><a href="mailto:{[{ user.user.email }]}">{[{ limitString(user.user.email,24) }]}</a></td>
+                <td><span class="fa fa-check" ng-if="user.user.enabled"></span>
+                    <!--<input title="Enabled" type="checkbox" ng-model="user.user.enabled" />-->
+                </td>
+                <td>
+                    <select title="Role"
+                            ng-model="user.maxRole"
+                            ng-if="user.maxRole!=='ROLE_SUPER_ADMIN'"
+                            ng-change="updateUserRole(user.user.id,user.maxRole)"
+                    >
+                        <option value="ROLE_USER">Unverified User</option>
+                        <option value="ROLE_OBSERVER">Observer</option>
+                        <option value="ROLE_WEDDING_GUEST">Wedding Guest</option>
+                        <option value="ROLE_PREVIEW_GUEST">Preview Guest</option>
+                        <option value="ROLE_ADMIN">Admin</option>
+                        <!-- Won't allow changes to Super Admins via this form / api -->
+                        <!--<option value="ROLE_SUPER_ADMIN">Super Admin</option>-->
+                    </select>
+                    <span ng-if="user.maxRole==='ROLE_SUPER_ADMIN'">Super Admin</span>
+                    <div ng-if="user.roleChanged">Saving <span class="fa fa-pulse fa-spinner"></span></div>
+                    <div ng-if="user.roleUpdateFailed">Save failed <span class="fa fa-warning"></span></div>
+                </td>
+                <td class="userContacts">
+                    <table class="table table-striped table-condensed contactsSubTable">
+                        <tr ng-repeat="contact in user.contactData">
+                            <td ng-if="contact.email"><a href="mailto:{[{contact.email}]}">{[{ contact.name }]}</a></td>
+                            <td ng-if="!contact.email">{[{ contact.name }]}</td>
+                            <td class="contactInfoIcon">
+                                   <span ng-if="contact.rsvp=='ATTENDING'"
+                                         title="Attending"
+                                         class="fa fa-check-square-o"></span>
+                                   <span ng-if="contact.rsvp=='NOT ATTENDING'"
+                                         title="Not Attending"
+                                         class="fa fa-remove"></span>
+                                   <span ng-if="!contact.rsvp"
+                                         title="tbc"
+                                         class="fa fa-question-circle"></span>
+                            </td>
+                            <td class="contactInfoIcon">
+                            <span class="fa fa-sticky-note-o showRequirements"
+                                  ng-if="contact.requirements"
+                                  ng-click="showRequirements(contact)"
+                            ></span>
+                                <!--<span class="fa fa-sticky-note" ng-if="!contact.requirements"></span>-->
+                            </td>
+                            <td class="contactInfoIcon">
+                                <span ng-if="contact.menu.type" class="fa fa-cutlery"
+                                      title="{[{ contact.menu.type +' : '+ contact.menu.starter+'/'+contact.menu.main+'/'+contact.menu.dessert }]}"
+                                ></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="requirements" ng-show="view=='requirements'">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Guest</th>
+                <th>RSVP</th>
+                <th>Notes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="guest in guestsWithRequirements">
+                <td><a href="mailto:{[{guest.email}]}">{[{guest.name}]}</a></td>
+                <td>{[{ guest.rsvp|ucFirst }]}</td>
+                <td>{[{guest.requirements}]}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="menuChoices" ng-show="view=='menu'">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Menu</th>
+                <th>Starter</th>
+                <th>Main</th>
+                <th>Dessert</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="guest in menuChoices"
+                class="{[{ (guest.rsvp=='ATTENDING')?'guestAttending':'guestAbsent' }]}">
+                <td>{[{ guest.contactName + (guest.rsvp=='ATTENDING'?'':' (not attending)')}]}</td>
+                <td>{[{ guest.menu }]}</td>
+                <td ng-if="(guest.menu =='Adult') || (guest.menu =='Teen')">{[{ guest.starter|ucFirst }]}</td>
+                <td ng-if="(guest.menu =='Adult') || (guest.menu =='Teen')">{[{ guest.main|ucFirst }]}</td>
+                <td ng-if="(guest.menu =='Adult') || (guest.menu =='Teen')">{[{ guest.dessert|ucFirst }]}</td>
+                <td colspan="3" ng-if="(guest.menu =='Child') || (guest.menu =='Under4')">{[{ guest.preferences }]}</td>
+                <td colspan="3" ng-if="(guest.menu =='NoMeal')">No meal required for infant</td>
+            </tr>
+            </tbody>
+        </table>
+        <p>{[{ menuChoices.length }]} responses</p>
+
+        <div ng-if="ageGroupCount">
+            <!--{[{ageGroupCount}]}-->
+            <h3>Guest summary</h3>
+            <table class="table table-striped">
+                <tr>
+                    <th>Menu</th>
+                    <th>Guests</th>
+                    <th>Choices</th>
+                </tr>
+                <tr ng-repeat="(menu,info) in ageGroupCount">
+                    <td>{[{menu}]}</td>
+                    <td>{[{info.count}]}</td>
+                    <td>
+                        <table class="table table-sm table-striped table-compact" ng-if="isAdultMealAge(menu)">
+                            <tbody ng-repeat="(course,choices) in info.choices">
+                            <tr>
+                                <th colspan="3">{[{course|ucFirst}]}</th>
+                            </tr>
+                            <tr ng-repeat="(choice,count) in choices">
+                                <td>{[{choice|ucFirst}]}</td>
+                                <td>{[{count}]}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

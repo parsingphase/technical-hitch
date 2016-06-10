@@ -1,0 +1,167 @@
+{% extends 'adminPage.html.twig' %}
+
+{% block pageContent %}
+    <div ng-app="weddingApp" class="ng-cloak seatingPlan" ng-controller="SeatingCtrl">
+        {# https://github.com/codef0rmer/angular-dragdrop #}
+
+        <div class="pull-right modeSelect">
+            <div>
+                <div class="btn-group" role="group">
+                    <button type="button"
+                            class="btn btn-default {[{ mode=='editPlaces'?'active':''}]}"
+                            ng-click="mode='editPlaces'"
+                    >Guests
+                    </button>
+                    <button type="button"
+                            class="btn btn-default {[{ mode=='editSeating'?'active':''}]}"
+                            ng-disabled="blocksChanged(blocks)"
+                            ng-click="mode='editSeating'"
+                    >Tables
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="pull-right">
+            <div>{[{ status }]}
+                <span class="btn btn-success"
+                      ng-if="loaded && mode=='editPlaces'"
+                      ng-disabled="!blocksChanged(blocks)"
+                      ng-click="savePlaces()">Save</span>
+                <span class="btn btn-success"
+                      ng-if="loaded && mode=='editSeating'"
+                        {#ng-disabled="!blocksChanged(blocks)"#}
+                      ng-click="saveSeating()">Save</span>
+            </div>
+        </div>
+
+        <h1>Seating plan</h1>
+
+        <div ng-if="loaded && mode=='editSeating'">
+            {#{[{seatLayout}]}#}
+            <div class="row center" ng-repeat="seatSet in seatLayout">
+                <div class="col-md-3" ng-repeat="seat in seatSet">
+                    <div class="seatBlock">
+                    <div class="seatBlockBody">
+                        <div>{[{seat.id}]})</div>
+                        <div>
+                            <label for="workingName[{[{seat.id}]}]">Working name</label>
+                            <input type="text"
+                                   name="workingName[{[{seat.id}]}]"
+                                   ng-model="seat.workingName"/></div>
+                        <div>
+                            <label for="themeName[{[{seat.id}]}]">Theme name</label>
+                            <input type="text"
+                                   name="themeName[{[{seat.id}]}]"
+                                   ng-model="seat.themeName"/>
+                        </div>
+                        <div>
+                            <label for="enabled[{[{seat.id}]}]">Enabled</label>
+                            <input type="checkbox" ng-model="seat.enabled"/>
+                        </div>
+                        <div>
+                            <label for="themeName[{[{seat.gridY}]}]">Row</label>
+                            <input type="text"
+                                   name="gridY[{[{seat.id}]}]"
+                                   ng-model="seat.gridY"/>
+                        </div>
+                        <div>
+                            <label for="themeName[{[{seat.gridX}]}]">Column</label>
+                            <input type="text"
+                                   name="gridX[{[{seat.id}]}]"
+                                   ng-model="seat.gridX"/>
+                        </div>
+                        <hr/>
+                        <div ng-repeat="party in blocks[seat.id]">
+                            <div class="party">
+                                <div ng-repeat="guest in party.guests"
+                                     class="guest">
+                                    <i>{[{guest.menu|truncate:1|lowercase}]}:</i>
+                                    {[{ guest.contactName }]}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="loaded && mode=='editPlaces'">
+        <div class="row center">
+            <div class="col-md-3">
+                <div class="row center">
+                    <div class="col-md-12">
+                        <div class="seatBlock tall">
+                            <div class="seatBlockHeading">Unassigned ({[{ guestCount(blocks[0]) }]})</div>
+                            <div class="seatBlockBody"
+                                 data-drop="true"
+                                 data-jqyoui-options
+                                 jqyoui-droppable="{multiple: true, stack:true}"
+                                 ng-model="blocks[0]"
+                            >
+                                <div ng-repeat="party in blocks[0]">
+                                    <div class="party" data-drag="true"
+                                         data-jqyoui-options="{revert: 'invalid'}"
+                                         jqyoui-draggable="{index: {[{ $index }]} }"
+                                         ng-model="blocks[0]">
+                                        <div ng-repeat="guest in party.guests"
+                                             class="guest">
+                                            <i>{[{guest.menu|truncate:1|lowercase}]}):</i>
+                                            {[{ guest.contactName }]}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {#{[{ seatLayout }]}#}
+                {#<hr />#}
+                {#{[{ blocks }]}#}
+            </div>
+
+            <div class="col-md-9">
+                <div class="row center" ng-repeat="seatSet in seatLayout">
+                    <div class="col-md-3" ng-repeat="seat in seatSet" ng-if="seat.enabled">
+                        <div class="seatBlock">
+                            <div class="seatBlockHeading">
+                                <span ng-if="!seat.workingName && !seat.themeName">{[{ seat.id }]})</span>
+                                <span ng-if="seat.workingName && !seat.themeName">{[{ seat.workingName }]}</span>
+                                <span ng-if="seat.themeName">{[{ seat.themeName }]}</span>
+                                ({[{ guestCount(blocks[seat.id]) }]})
+                            </div>
+                            <div class="seatBlockBody"
+                                 data-drop="true"
+                                 data-jqyoui-options
+                                 jqyoui-droppable="{multiple: true, stack:true}"
+                                 ng-model="blocks[seat.id]"
+                            >
+                                <div ng-repeat="party in blocks[seat.id]">
+                                    <div class="party" data-drag="true"
+                                         data-jqyoui-options="{revert: 'invalid'}"
+                                         jqyoui-draggable="{index: {[{ $index }]} }"
+                                         ng-model="blocks[seat.id]">
+                                        <div ng-repeat="guest in party.guests"
+                                             class="guest">
+                                            <i>{[{guest.menu|truncate:1|lowercase}]}:</i>
+                                            {[{ guest.contactName }]}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        angular.module('weddingApp').constant("csrf", {{ csrf_token('userAdmin')|json_encode|raw }});
+    </script>
+{% endblock %}

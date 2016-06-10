@@ -1,0 +1,45 @@
+{% extends 'infoPage.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src='//api.mapbox.com/mapbox.js/v2.2.3/mapbox.js'></script>
+    <script src='{{ asset('js/maps.js') }}'></script>
+    {#
+    This all goes horribly wrong inside ng-app. So don't call it inside ng-app.
+    venue itself: 51.48052, -0.00661
+    map centre: geo: 51.48060,-0.01079?z=17
+    Docs: http://leafletjs.com/reference.html#marker
+    #}
+
+    <script>
+        var mapCentre = [51.51379, -0.09725];
+
+        var locations = [
+            {position: [51.51379, -0.09725], title: 'Saint Paul\'s', primary: true}
+        ];
+
+        map = mapController.drawLocationsMap(mapCentre, 16, locations);
+
+        $('.mapReset').click(function() {
+            map.setView(mapCentre, 16);
+        });
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href='//api.mapbox.com/mapbox.js/v2.2.3/mapbox.css' rel='stylesheet'/>
+{% endblock %}
+
+{% block pageContent %}
+    <div ng-app="weddingApp" class="mapPage venue">
+        <h1>Venue</h1>
+
+        <p>TODO Add your venue information here</p>
+
+        <div class="pull-right"><span class="btn btn-default btn-sm mapReset">
+                <span class="fa fa-crosshairs"></span> Re-centre</span></div>
+        <h2>Location</h2>
+        <div id="map" class="wideMap">Map loading <span class="fa fa-spinner fa-pulse"></span></div>
+    </div>
+{% endblock %}

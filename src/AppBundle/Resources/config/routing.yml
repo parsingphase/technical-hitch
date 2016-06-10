@@ -1,0 +1,154 @@
+wedding_homepage:
+    path:     /
+    defaults: { _controller: AppBundle:Default:index }
+    methods:  [GET]
+
+wedding_info:
+    path:     /info/{page}
+    defaults: { _controller: AppBundle:Default:infoPage, page:'index' }
+    methods:  [GET]
+
+kiosk:
+    path:     /kiosk/{page}
+    defaults: { _controller: AppBundle:Default:kiosk, page:'dining' }
+    methods:  [GET]
+
+wedding_menu:
+    path:     /menu
+    defaults: { _controller: AppBundle:Default:menu }
+    methods:  [GET]
+
+wedding_photos:
+    path:     /photos/{page}
+    defaults: { _controller: AppBundle:Default:photoPage, page:'index' }
+    methods:  [GET]
+
+static_image:
+    path:     /file/{directory}/{name}
+    defaults: { _controller: AppBundle:Default:staticFile }
+    methods:  [GET]
+
+profile:
+    path:     /profile/{guestId}
+    defaults: { _controller: AppBundle:Default:profile, guestId:'index' }
+    methods:  [GET]
+
+api_profile:
+    path:     /api/profile/{guestId}
+    defaults: { _controller: AppBundle:Default:profileApi }
+    methods:  [GET]
+
+api_profile_post:
+    path:     /api/profile
+    defaults: { _controller: AppBundle:Default:profileSaveApi }
+    methods:  [POST]
+
+api_contacts:
+    path:     /api/contacts
+    defaults: { _controller: AppBundle:Default:contacts }
+    methods:  [GET,POST]
+
+api_user:
+    path:     /api/user
+    defaults: { _controller: AppBundle:Default:user }
+    methods:  [GET]
+
+api_menu_choice:
+    path:     /api/menuchoice
+    defaults: { _controller: AppBundle:Default:menuChoiceApi }
+    methods:  [GET,POST]
+
+admin_index:
+    path:     /admin
+    defaults: { _controller: AppBundle:Admin:index }
+    methods:  [GET]
+
+admin_users:
+    path:     /admin/users
+    defaults: { _controller: AppBundle:Admin:users }
+    methods:  [GET]
+
+admin_settings:
+    path:     /admin/settings
+    defaults: { _controller: AppBundle:Admin:settings }
+    methods:  [GET]
+
+admin_seating:
+    path:     /admin/seating
+    defaults: { _controller: AppBundle:Admin:seating }
+    methods:  [GET]
+
+admin_invite_user:
+    path:     /admin/inviteUser
+    defaults: { _controller: AppBundle:Admin:inviteUser }
+    methods:  [GET,POST]
+
+admin_userlist_api:
+    path:     /api/users
+    defaults: { _controller: AppBundle:Admin:userListApi }
+    methods:  [GET]
+
+admin_userlist_api_attending_parties:
+    path:     /api/attendingParties
+    defaults: { _controller: AppBundle:Admin:attendingPartiesApi }
+    methods:  [GET]
+
+admin_userlist_api_seating:
+    path:     /api/seating
+    defaults: { _controller: AppBundle:Admin:seatingApi }
+    methods:  [GET]
+
+admin_userlist_api_seating_save:
+    path:     /api/seating
+    defaults: { _controller: AppBundle:Admin:seatingSaveApi }
+    methods:  [POST]
+
+admin_userlist_api_tablelayout_save:
+    path:     /api/tableLayout
+    defaults: { _controller: AppBundle:Admin:seatLayoutSaveApi }
+    methods:  [POST]
+
+admin_user_role_update_api:
+    path:     /api/updateUserRole
+    defaults: { _controller: AppBundle:Admin:updateUserRoleApi }
+    methods:  [POST]
+
+admin_send_emails:
+    path:     /admin/mailer
+    defaults: { _controller: AppBundle:Admin:mailer }
+    methods:  [GET]
+
+admin_email_addresses_api:
+    path:     /api/emailAddresses
+    defaults: { _controller: AppBundle:Admin:emailAddressesApi }
+    methods:  [GET]
+
+admin_email_templates_api:
+    path:     /api/mailTemplates
+    defaults: { _controller: AppBundle:Admin:emailTemplatesApi }
+    methods:  [GET]
+
+admin_email_template_api:
+    path:     /api/mailTemplate
+    defaults: { _controller: AppBundle:Admin:emailTemplateApi }
+    methods:  [POST]
+
+admin_email_send_api:
+    path:     /api/mailToRecipients
+    defaults: { _controller: AppBundle:Admin:emailSendApi }
+    methods:  [POST]
+
+admin_email_sent_status:
+    path:     /api/mailSentStatus
+    defaults: { _controller: AppBundle:Admin:emailSentStatusApi }
+    methods:  [POST]
+
+admin_menu_choices_api:
+    path:     /api/menuChoices
+    defaults: { _controller: AppBundle:Admin:menuChoicesApi }
+    methods:  [GET]
+
+admin_settings_api:
+    path:     /api/siteSettings
+    defaults: { _controller: AppBundle:Admin:siteSettingsApi }
+    methods:  [GET,POST]

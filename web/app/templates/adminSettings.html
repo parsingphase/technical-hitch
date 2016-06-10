@@ -1,0 +1,40 @@
+<h1>Settings</h1>
+
+<div ng-controller="SettingsCtrl">
+    <div ng-show="!settings"><span class="fa fa-spin fa-spinner"></span> Loading</div>
+
+    <table class="table table-striped" ng-if="settings">
+        <tr>
+            <th>Setting</th>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+        <tr ng-repeat="(key,value) in settings">
+            <th><label for="setting{[{$index}]}">{[{ key }]}</label></th>
+            <td><input id="setting{[{$index}]}" ng-model="settings[key]['settingValue']" type="text"/></td>
+            <td>{[{ settings[key]['description'] }]}</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td>
+                <div class="pull-right">
+                    <button
+                            class="btn btn-success"
+                            ng-click="save()"
+                            ng-disabled="!changed()"
+                    ><span class="fa fa-upload"></span> Save
+                    </button>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="alert alert-success" ng-if="(!changed()) && (status=='Saved')">
+        {[{ status }]}
+    </div>
+    <div class="alert alert-info" ng-if="status=='Saving'">
+        {[{ status }]}
+    </div>
+    <div class="alert alert-danger" ng-if="status=='Error'">
+        {[{ status }]}
+    </div>
+</div>
