@@ -22,7 +22,7 @@ Installation
 2. Copy config/parameters.yml.dist to config/parameters.yml and edit
 3. Run `ant deploy-current-dev`
 
-You'll need ant and composer installed to use this code. For other deploymen tasks, run `ant -p`. The best way to 
+You'll need ant and composer installed to use this code. For other deployment tasks, run `ant -p`. The best way to 
 work out what functionality is available is probably just to install the code and experiment. You'll need to give the 
 first user you create ROLE_SUPER_ADMIN (see your local symfony expert for advice).
 

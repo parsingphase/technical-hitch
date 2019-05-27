@@ -99,20 +99,22 @@
     </target>
 
     <target name="composer-install">
-        <exec executable="${composer.exe}">
+        <exec executable="${composer.exe}" failonerror="true">
+            <env key="SYMFONY_ENV" value="${symfony.env}" />
             <arg value="install"/>
             <arg value="--no-dev"/>
         </exec>
     </target>
 
     <target name="composer-install-dev">
-        <exec executable="${composer.exe}">
+        <exec executable="${composer.exe}" failonerror="true">
+            <env key="SYMFONY_ENV" value="${symfony.env}" />
             <arg value="install"/>
         </exec>
     </target>
 
     <target name="npm-install">
-        <exec executable="${npm.exe}">
+        <exec executable="${npm.exe}" failonerror="true">
             <arg value="install"/>
         </exec>
     </target>
