@@ -3,6 +3,13 @@
     <property file="build.properties"/> <!-- local overrides -->
     <property file="build.dist.properties"/> <!-- defaults -->
 
+    <!--
+    STAGES:
+
+    deploy: Full-chain, optionally with fetch. Leaves code ready to run
+    build: Put all code in place, to a testable level, but don't require DB
+    -->
+
     <target name="deploy-latest"
             description="Pull latest code from master and redeploy"
             depends="git-pull,deploy-current">
@@ -15,22 +22,23 @@
 
     <target name="deploy-current"
             description="(Re)Deploy currently present project"
-            depends="set-symfony-env-prod,composer-install,npm-install,build-prod,set-var-dir-access,doctrine-migrate,acl-warning">
+            depends="build-prod,doctrine-migrate,acl-warning">
         <antcall target="clear-cache"/><!-- explicit call at *end* of deploy -->
     </target>
 
     <target name="deploy-current-dev"
             description="(Re)Deploy currently present project for development"
-            depends="set-symfony-env-dev,composer-install-dev,npm-install,frontend-packages-copy,doctrine-migrate,clear-cache">
+            depends="build-dev,doctrine-migrate">
+        <antcall target="clear-cache"/><!-- explicit call at *end* of deploy -->
     </target>
 
     <target name="build-prod"
             description="(Re)Build project with currently installed dependencies"
-            depends="set-symfony-env-prod,frontend-packages-copy,assetic-dump,clear-cache">
+            depends="set-symfony-env-prod,composer-install,npm-install,frontend-packages-copy,assetic-dump,clear-cache">
     </target>
 
     <target name="build-dev" description="(Re)Build project with currently installed dependencies for development"
-            depends="set-symfony-env-dev,frontend-packages-copy,clear-cache">
+            depends="set-symfony-env-dev,composer-install-dev,npm-install,frontend-packages-copy,clear-cache">
     </target>
 
     <target name="set-symfony-env-dev"
@@ -54,10 +62,10 @@
         </copy>
 
         <copy todir="${basedir}/web/vendor/jquery" overwrite="true"
-            file="${basedir}/vendor/components/jquery/jquery.min.js"/>
+              file="${basedir}/vendor/components/jquery/jquery.min.js"/>
 
         <copy todir="${basedir}/web/vendor/jquery" overwrite="true"
-            file="${basedir}/vendor/components/jqueryui/jquery-ui.min.js"/>
+              file="${basedir}/vendor/components/jqueryui/jquery-ui.min.js"/>
 
         <copy todir="${basedir}/web/vendor/angular" overwrite="true"
               file="${basedir}/node_modules/angular/angular.min.js"/>
@@ -218,4 +226,28 @@
             description="Ensure that appropriate var (cache,log) directories have correct ACLs"
             depends="set-var-dir-access-by-acl,set-var-dir-access-by-chmod-plus-a">
     </target>
+
+    <target name="phpcs">
+        <exec executable="bin/phpcs" dir="${basedir}" failonerror="true">
+            <arg value="--standard=PSR2"/>
+            <arg value="src"/>
+        </exec>
+    </target>
+
+    <target name="phplint">
+        <apply executable="${php.exe}" dir="${basedir}" failonerror="true">
+            <arg value="-l"/>
+            <fileset dir="src">
+                <patternset>
+                    <include name="**/*.php"/>
+                </patternset>
+            </fileset>
+        </apply>
+    </target>
+
+    <target name="phptests" depends="phpcs,phplint"/>
+
+    <target name="test"
+            description="Install dependencies, run static tests"
+            depends="build-dev,phptests"/>
 </project>
