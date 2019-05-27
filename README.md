@@ -1,4 +1,4 @@
-parsingphase/technical-hitch
+parsingphase/technical-hitch [![Build Status](https://travis-ci.org/parsingphase/technical-hitch.svg?branch=master)](https://travis-ci.org/parsingphase/technical-hitch)
 ============================
 
 Open-source version of our wedding website.
@@ -14,7 +14,7 @@ In particular:
 - Angular architecture is a bit off (some things should be directives, etc, that aren't)
 - Some things should be configuration settings that aren't
 - Result checking is not always 100%
-- There are no tests (which is a sign I was *really* in a rush!)
+- There are no tests (which is a sign I was *really* in a rush!) - travis checks are just static code & build checks
 
 Installation
 ------------
