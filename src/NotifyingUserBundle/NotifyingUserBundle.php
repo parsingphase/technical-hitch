@@ -10,7 +10,6 @@ namespace NotifyingUserBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-
 class NotifyingUserBundle extends Bundle
 {
     public function getParent()

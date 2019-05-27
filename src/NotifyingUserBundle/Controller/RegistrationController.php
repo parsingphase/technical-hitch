@@ -49,10 +49,12 @@ class RegistrationController extends FOSRegistrationController
             return $response;
         }
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.' . $this->getEngine(),
+        return $this->container->get('templating')->renderResponse(
+            'FOSUserBundle:Registration:register.html.' . $this->getEngine(),
             array(
                 'form' => $form->createView(),
-            ));
+            )
+        );
     }
 
     public function confirmedAction()
@@ -65,10 +67,12 @@ class RegistrationController extends FOSRegistrationController
 
         $this->notifyAdministratorOfUserChange($user, 'Account confirmed'); //ADDED
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:confirmed.html.' . $this->getEngine(),
+        return $this->container->get('templating')->renderResponse(
+            'FOSUserBundle:Registration:confirmed.html.' . $this->getEngine(),
             array(
                 'user' => $user,
-            ));
+            )
+        );
     }
 
 
@@ -90,5 +94,4 @@ class RegistrationController extends FOSRegistrationController
 
         $mailer->send($message);
     }
-
 }

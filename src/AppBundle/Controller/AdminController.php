@@ -50,7 +50,6 @@ class AdminController extends Controller
         ];
 
         if ($request->getMethod() === 'POST') {
-
             $csrfToken = $request->request->get('token');
 
             $csrf = $this->get('security.csrf.token_manager');
@@ -111,7 +110,6 @@ class AdminController extends Controller
             $viewParams['message'] = $message;
             $viewParams['result'] = $result;
             $viewParams['failedRecipients'] = $failedRecipients;
-
         } else {
             $sampleUrl = $this->generateUrl(
                 'fos_user_resetting_reset',
@@ -227,9 +225,7 @@ class AdminController extends Controller
                     'Sent new role notification',
                     ['userId' => $userId, 'role' => $role, 'result' => $notificationResult]
                 );
-
             }
-
         } else {
             $result = 500;
             $response = ['error' => 'No such user'];
@@ -289,7 +285,6 @@ class AdminController extends Controller
 
         $seating = $dataStore->getSeatingGrid(true);
         return JsonResponse::create($seating);
-
     }
 
     public function seatingSaveApiAction(Request $request)
@@ -330,7 +325,6 @@ class AdminController extends Controller
 
         // respond with latest settings in call cases
         return JsonResponse::create($dataStore->getSettings(true));
-
     }
 
     public function emailAddressesApiAction()
@@ -367,8 +361,7 @@ class AdminController extends Controller
         $templateExisting = $dataStore->getEmailTemplateById($templateId);
 
         if ($templateExisting) {
-            if (
-                ($templateExisting['identifier'] === $template['identifier']) &&
+            if (($templateExisting['identifier'] === $template['identifier']) &&
                 ($templateExisting['subject'] === $template['subject']) &&
                 ($templateExisting['body'] === $template['body'])
             ) {
@@ -439,7 +432,6 @@ class AdminController extends Controller
         }
 
         return JsonResponse::create($response);
-
     }
 
     public function emailTemplateApiAction(Request $request)

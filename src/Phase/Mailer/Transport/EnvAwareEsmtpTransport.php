@@ -8,7 +8,6 @@
 
 namespace Phase\Mailer\Transport;
 
-
 use Swift_Events_EventDispatcher;
 use Swift_Transport_IoBuffer;
 
@@ -26,5 +25,4 @@ class EnvAwareEsmtpTransport extends \Swift_Transport_EsmtpTransport
             $_SERVER['SERVER_NAME'] = $helo; // used by swiftmailer internally too
         }
     }
-
 }

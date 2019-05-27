@@ -8,7 +8,6 @@
 
 namespace Phase\Wedding;
 
-
 use Doctrine\DBAL\Connection;
 
 class DataStore
@@ -175,7 +174,8 @@ class DataStore
                 if ($inserted) {
                     $guests = $contactsArray;
                     foreach ($guests as $guest) {
-                        $this->dbConn->insert('contacts_guest',
+                        $this->dbConn->insert(
+                            'contacts_guest',
                             [
                                 //'contactPartyId' => $primaryId,
                                 'contactName' => $guest['name'],
@@ -184,7 +184,8 @@ class DataStore
                                 'rsvp' => $guest['rsvp'],
                                 'userId' => $userId,
                                 'isPrimary' => 0
-                            ]);
+                            ]
+                        );
                         $guestsStored++;
                     }
                     //$contacts = $this->getUserContactsJson($dataStore, $user);
@@ -353,7 +354,6 @@ class DataStore
                 $choice['guestId'] = $guestId;
                 $this->dbConn->insert('menu_selection', $choice);
             }
-
         }
         return true;
     }
@@ -361,7 +361,8 @@ class DataStore
     public function getAllMenuChoices()
     {
         return $this->dbConn->fetchAll(
-            'SELECT cg.contactName, cg.rsvp, ms.* FROM menu_selection ms INNER JOIN contacts_guest cg ON cg.id = ms.guestId'
+            'SELECT cg.contactName, cg.rsvp, ms.* 
+                  FROM menu_selection ms INNER JOIN contacts_guest cg ON cg.id = ms.guestId'
         );
     }
 
@@ -608,5 +609,4 @@ class DataStore
         $profileExists = (bool)$this->dbConn->fetchColumn($sql, ['guestId' => $guestId]);
         return $profileExists;
     }
-
 }

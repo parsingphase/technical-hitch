@@ -77,7 +77,6 @@ class DefaultController extends Controller
             }
             return JsonResponse::create($result, $errors ? 500 : 200);
         } else {
-
             if ($user) {
                 $contacts = $this->getUserContactsJson($dataStore, $user);
             } else {
@@ -85,7 +84,6 @@ class DefaultController extends Controller
                 $errors = ['Not logged in']; // should be impossible
             }
             return JsonResponse::create($contacts, $errors ? 500 : 200);
-
         }
     }
 
@@ -179,7 +177,8 @@ class DefaultController extends Controller
                 'salmon' => 'Smoked salmon, melba toast & lemon mayonnaise, petit herb salad'
             ],
             'Main' => [
-                'moussaka' => 'Uncovered mediterranean vegetable Moussaka served with a Lebanese cucumber salad (Vegetarian + Vegan)',
+                'moussaka' => 'Uncovered mediterranean vegetable Moussaka served with a Lebanese cucumber salad' .
+                    ' (Vegetarian + Vegan)',
                 'hake' => 'Herb crusted hake fillet on a bed of basil pesto creamed tagliatelle',
                 'sirloin' => 'Pan seared Sirloin of beef, dauphinoise potatoes, blistered cherry tomato compote,' .
                     ' buttered spinach & rich red wine jus',
@@ -278,11 +277,10 @@ class DefaultController extends Controller
         $this->denyAccessUnlessGranted('ROLE_OBSERVER', null, 'Page requires login');
 
         $photos = [
-           //TODO add some photos to share with your guests here
+            //TODO add some photos to share with your guests here
         ];
 
-        $description = 'A few weeks ago we had a pre-wedding shoot with the photographer in and around the wedding venue. 
-        Here are a few of our favourite pictures.';
+        $description = 'Here are a few of our favourite pictures.';
 
         return $this->render(
             'default/photos.html.twig',
@@ -328,7 +326,6 @@ class DefaultController extends Controller
             $guestId ? 'default/guestProfile.html.twig' : 'default/profileIndex.html.twig',
             $params
         );
-
     }
 
     public function profileApiAction($guestId)
@@ -378,7 +375,6 @@ class DefaultController extends Controller
             $code = 500;
         }
         return JsonResponse::create($response, $code);
-
     }
 
     public function staticFileAction($directory, $name = ' - ')
@@ -445,7 +441,6 @@ class DefaultController extends Controller
 
             //keep this one last
             $validInfoPages['planning'] = 'Planning';
-
         }
         return $validInfoPages;
     }
@@ -462,6 +457,4 @@ class DefaultController extends Controller
         $dataStore = new DataStore($conn);
         return $dataStore;
     }
-
-
 }
